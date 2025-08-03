@@ -81,7 +81,7 @@ const SyncTypeCards: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 -z-10 relative">
+    <div className="w-full max-w-6xl mx-auto px-4 relative">
       <h2 className="text-3xl text-center mb-16 md:text-4xl lg:text-5xl font-bold text-white">
         Select Sync Type
       </h2>

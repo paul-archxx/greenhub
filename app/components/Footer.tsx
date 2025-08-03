@@ -4,7 +4,7 @@ import IconSelector from "./IconSelector";
 const Footer: React.FC = () => {
   return (
     <div
-      className="relative overflow-hidden isolate -z-10"
+      className="relative overflow-hidden isolate"
       // style={{ backgroundColor: "#080a29" }}
     >
       {/* Background image */}

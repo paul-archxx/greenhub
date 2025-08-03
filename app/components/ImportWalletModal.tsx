@@ -64,7 +64,7 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-md"
-        // onClick={onClose}
+        // onClick={onClose}h
       />
 
       {/* Modal */}
