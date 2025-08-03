@@ -57,7 +57,7 @@ const ParticlesComponent: React.FC = () => {
           },
           modes: {
             repulse: {
-              distance: 100,
+              distance: 200,
               duration: 0.4,
             },
           },

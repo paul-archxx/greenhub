@@ -6,7 +6,7 @@ import Button from "./Button";
 const HeroSection: React.FC = () => {
   return (
     <div className="min-h-screen relative overflow-hidden isolate">
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
+      <div className="relative z-10 font-heading flex flex-col items-center justify-center min-h-screen px-4 text-center">
         {/* Protocol Badge */}
         <div className="bg-purple-600/20 backdrop-blur-sm border border-purple-500/30 rounded-full px-4 py-2 mb-8">
           <span className="text-white text-sm font-medium">
