@@ -54,7 +54,7 @@ const ClientWrapper: React.FC = () => {
         }}
       />
 
-      <CryptoHeader />
+      {/* <CryptoHeader /> */}
       <HeroSection />
       <div className="py-16">
         <SyncTypeCards />
