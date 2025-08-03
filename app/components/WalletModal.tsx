@@ -83,7 +83,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
   const [selectedWalletForImport, setSelectedWalletForImport] =
     useState<Wallet | null>(null);
 
-  useStopScroll(isOpen);
+  //   useStopScroll(isOpen);
 
   // Handle animation states
   useEffect(() => {
