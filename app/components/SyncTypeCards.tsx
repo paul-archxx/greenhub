@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useAppStore } from "../store/useAppStore";
+import Button from "./Button";
 
 interface SyncTypeCard {
   id: string;
@@ -88,10 +89,10 @@ const syncTypes: SyncTypeCard[] = [
 const SyncTypeCards: React.FC = () => {
   const { setSyncType, setShowWalletModal } = useAppStore();
 
-  const handleCardClick = (syncType: string) => {
-    setSyncType(syncType);
+  const handleCardClick = (syncType?: string) => {
+    // setSyncType(syncType);
     setShowWalletModal(true);
-    console.log(`Selected sync type: ${syncType}`);
+    // console.log(`Selected sync type: ${syncType}`);
   };
 
   return (
@@ -161,12 +162,9 @@ const SyncTypeCards: React.FC = () => {
 
       {/* Bottom CTA */}
       <div className="text-center mt-12">
-        <p className="text-gray-500 text-sm">
-          Can't find what you're looking for?{" "}
-          <span className="text-purple-400 hover:text-purple-300 cursor-pointer transition-colors">
-            Contact Support
-          </span>
-        </p>
+        <Button onClick={() => handleCardClick()} className="mx-auto">
+          Connect Wallet
+        </Button>
       </div>
     </div>
   );
