@@ -34,7 +34,7 @@ const HeroSection: React.FC = () => {
           </div>
 
           {/* Main Title */}
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 max-w-4xl leading-tight">
+          <h1 className="text-4xl md:text-6xl lg:text-[5vw] font-bold text-white mb-6 max-w-[75%] leading-tight">
             Decentralized protocol for syncing various Wallets issues on Secure
             Server.
           </h1>

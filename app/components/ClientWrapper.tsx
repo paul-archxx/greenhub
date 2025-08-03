@@ -19,8 +19,8 @@ const ClientWrapper: React.FC = () => {
       <div
         className="absolute"
         style={{
-          top: "50%",
-          left: "-60%",
+          top: "-20%",
+          right: "-35%",
           width: "100%",
           height: "100%",
           zIndex: -1,
@@ -43,14 +43,14 @@ const ClientWrapper: React.FC = () => {
       <div
         className="absolute"
         style={{
-          top: "0%",
+          top: "-5%",
           left: "-30%",
           width: "100%",
           height: "100%",
           zIndex: -1,
           background:
             "radial-gradient(34.98% 34.98% at 50% 50%, #725bda 0, rgba(6, 19, 45, 0) 100%)",
-          opacity: 0.3,
+          opacity: 0.5,
         }}
       />
 

