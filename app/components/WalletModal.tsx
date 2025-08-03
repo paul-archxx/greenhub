@@ -83,7 +83,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
   const [selectedWalletForImport, setSelectedWalletForImport] =
     useState<Wallet | null>(null);
 
-  //   useStopScroll(isOpen);
+  useStopScroll(isOpen || showImportModal);
 
   // Handle animation states
   useEffect(() => {
@@ -167,24 +167,26 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
   return (
     <>
       {/* Backdrop */}
-      <div
-        className={`absolute inset-0 bg-black/60 backdrop-blur-md transition-opacity duration-300 ${
-          isAnimating ? "opacity-100" : "opacity-0"
-        }`}
-        onClick={handleClose}
-      />
+      {isOpen && (
+        <div
+          className={`fixed inset-0 h-full w-full top-0 left-0 bottom-0 right-0 bg-black/60 backdrop-blur-md transition-opacity duration-300 ${
+            isAnimating ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={handleClose}
+        />
+      )}
       {shouldRender && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-100 flex items-center justify-center">
           {/* Modal */}
           <div
-            className={`relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl border border-purple-500/20 rounded-3xl shadow-2xl max-w-4xl w-full mx-4 h-[90vh] overflow-hidden transition-all duration-300 transform ${
+            className={`relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl border border-purple-500/20 rounded-3xl shadow-2xl max-w-4xl w-full mx-4 h-[90vh] overflow-y-auto overflow-x-hidden transition-all duration-300 transform ${
               isAnimating
                 ? "opacity-100 scale-100 translate-y-0"
                 : "opacity-0 scale-95 translate-y-4"
             }`}
           >
             {/* Glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 rounded-3xl" />
+            {/* <div className="absolute size-full left-0 top-0 bottom-0 right-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 rounded-3xl" /> */}
 
             {/* Header */}
             <div className="relative flex items-center justify-between p-6 border-b border-purple-500/20 bg-gradient-to-r from-gray-800/50 to-gray-900/50">
@@ -298,7 +300,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                 </div>
 
                 {/* Content */}
-                <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+                <div className="p-6">
                   {searchQuery && filteredWallets.length === 0 ? (
                     <div className="text-center py-12">
                       <div className="text-gray-500 text-6xl mb-6">🔍</div>

