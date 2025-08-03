@@ -162,7 +162,7 @@ const SyncTypeCards: React.FC = () => {
 
       {/* Bottom CTA */}
       <div className="text-center mt-12">
-        <Button onClick={() => handleCardClick()} className="mx-auto">
+        <Button onClick={() => handleCardClick()} className="mx-auto uppercase">
           Connect Wallet
         </Button>
       </div>

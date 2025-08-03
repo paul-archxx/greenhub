@@ -230,7 +230,10 @@ const ServiceDetails: React.FC = () => {
                 operations. Start your journey today with our secure and
                 user-friendly platform.
               </p>
-              <Button onClick={handleConnectWallet} className="mx-auto">
+              <Button
+                onClick={handleConnectWallet}
+                className="mx-auto uppercase"
+              >
                 Connect Wallet
               </Button>
             </div>

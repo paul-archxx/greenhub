@@ -47,10 +47,8 @@ const HeroSection: React.FC = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-16">
-            <Button onClick={handleConnectWallet}>
-              {isWalletConnected
-                ? `Connected: ${selectedWallet?.name}`
-                : "Connect Wallet"}
+            <Button onClick={handleConnectWallet} className="uppercase">
+              Connect Wallet
             </Button>
 
             {/* <Button onClick={handleSelectChain}>Select Chain</Button> */}
