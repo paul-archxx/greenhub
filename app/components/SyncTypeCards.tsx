@@ -86,10 +86,11 @@ const syncTypes: SyncTypeCard[] = [
 ];
 
 const SyncTypeCards: React.FC = () => {
-  const { setSyncType } = useAppStore();
+  const { setSyncType, setShowWalletModal } = useAppStore();
 
   const handleCardClick = (syncType: string) => {
     setSyncType(syncType);
+    setShowWalletModal(true);
     console.log(`Selected sync type: ${syncType}`);
   };
 
