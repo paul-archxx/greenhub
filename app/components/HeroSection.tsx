@@ -2,8 +2,26 @@
 
 import React from "react";
 import Button from "./Button";
+import WalletModal from "./WalletModal";
+import { useAppStore } from "../store/useAppStore";
 
 const HeroSection: React.FC = () => {
+  const {
+    showWalletModal,
+    setShowWalletModal,
+    isWalletConnected,
+    selectedWallet,
+  } = useAppStore();
+
+  const handleConnectWallet = () => {
+    setShowWalletModal(true);
+  };
+
+  const handleSelectChain = () => {
+    // TODO: Implement chain selection modal
+    console.log("Select chain clicked");
+  };
+
   return (
     <div className="min-h-screen relative overflow-hidden isolate">
       <div className="relative z-10 font-heading flex flex-col items-center justify-center min-h-screen px-4 text-center">
@@ -28,11 +46,21 @@ const HeroSection: React.FC = () => {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mb-16">
-          <Button>Connect Wallet</Button>
+          <Button onClick={handleConnectWallet}>
+            {isWalletConnected
+              ? `Connected: ${selectedWallet?.name}`
+              : "Connect Wallet"}
+          </Button>
 
-          <Button>Select Chain</Button>
+          <Button onClick={handleSelectChain}>Select Chain</Button>
         </div>
       </div>
+
+      {/* Wallet Modal */}
+      <WalletModal
+        isOpen={showWalletModal}
+        onClose={() => setShowWalletModal(false)}
+      />
     </div>
   );
 };

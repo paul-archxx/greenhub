@@ -8,15 +8,26 @@ interface CryptoPrice {
   changePercent: string;
 }
 
+interface Wallet {
+  id: string;
+  name: string;
+  icon: string;
+  category: "popular" | "defi" | "hardware" | "mobile";
+}
+
 interface AppState {
   cryptoPrices: CryptoPrice[];
   isWalletConnected: boolean;
   selectedChain: string;
   syncType: string | null;
+  selectedWallet: Wallet | null;
+  showWalletModal: boolean;
   setCryptoPrices: (prices: CryptoPrice[]) => void;
   setWalletConnected: (connected: boolean) => void;
   setSelectedChain: (chain: string) => void;
   setSyncType: (type: string | null) => void;
+  setSelectedWallet: (wallet: Wallet | null) => void;
+  setShowWalletModal: (show: boolean) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -95,8 +106,12 @@ export const useAppStore = create<AppState>((set) => ({
   isWalletConnected: false,
   selectedChain: "Select Chain",
   syncType: null,
+  selectedWallet: null,
+  showWalletModal: false,
   setCryptoPrices: (prices) => set({ cryptoPrices: prices }),
   setWalletConnected: (connected) => set({ isWalletConnected: connected }),
   setSelectedChain: (chain) => set({ selectedChain: chain }),
   setSyncType: (type) => set({ syncType: type }),
+  setSelectedWallet: (wallet) => set({ selectedWallet: wallet }),
+  setShowWalletModal: (show) => set({ showWalletModal: show }),
 }));
