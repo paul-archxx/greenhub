@@ -7,6 +7,7 @@ import ServiceDetails from "./ServiceDetails";
 import Footer from "./Footer";
 import Image from "next/image";
 import ParticlesComponent from "./Particles";
+import CryptoHeader from "./CryptoHeader";
 
 const ClientWrapper: React.FC = () => {
   return (
@@ -60,7 +61,7 @@ const ClientWrapper: React.FC = () => {
           backgroundImage: "url('/background-line.png')",
         }}
       /> */}
-      {/* <CryptoHeader /> */}
+      <CryptoHeader />
       <HeroSection />
       <div className="py-16">
         <SyncTypeCards />
