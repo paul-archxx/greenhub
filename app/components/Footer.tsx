@@ -4,7 +4,7 @@ import IconSelector from "./IconSelector";
 const Footer: React.FC = () => {
   return (
     <div
-      className="relative overflow-hidden"
+      className="relative overflow-hidden isolate"
       style={{ backgroundColor: "#080a29" }}
     >
       {/* Background image */}
@@ -12,6 +12,36 @@ const Footer: React.FC = () => {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
         style={{
           backgroundImage: "url('/background-line.png')",
+        }}
+      />
+
+      {/* Left Light Effect */}
+      <div
+        className="absolute"
+        style={{
+          top: "-70%",
+          left: "-60%",
+          width: "2000px",
+          height: "2000px",
+          zIndex: -1,
+          background:
+            "radial-gradient(34.98% 34.98% at 50% 50%, #725bda 0, rgba(6, 19, 45, 0) 100%)",
+          opacity: 0.5,
+        }}
+      />
+
+      {/* Right Light Effect */}
+      <div
+        className="absolute"
+        style={{
+          top: "-40%",
+          left: "-30%",
+          width: "2000px",
+          height: "2000px",
+          zIndex: -1,
+          background:
+            "radial-gradient(34.98% 34.98% at 50% 50%, #725bda 0, rgba(6, 19, 45, 0) 100%)",
+          opacity: 0.5,
         }}
       />
 

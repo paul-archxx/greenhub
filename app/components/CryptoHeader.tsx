@@ -8,14 +8,15 @@ const CryptoHeader: React.FC = () => {
   const { cryptoPrices } = useAppStore();
 
   return (
-    <div className="sticky top-0 z-50 bg-gray-800 text-white py-2 shadow-lg">
+    <div className="sticky top-0 z-50 bg-gray-800 text-white py-2 shadow-lg max-w-screen overflow-x-hidden">
       <div className="flex items-center justify-between px-4">
         <div className="flex-1">
           <Marquee
             speed={40}
             gradient={false}
             pauseOnHover={true}
-            className="flex items-center"
+
+            // className="flex"
           >
             {cryptoPrices.map((crypto, index) => (
               <div
