@@ -49,12 +49,12 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
 
     setIsImporting(true);
 
-    // Simulate import process
-    setTimeout(() => {
-      setIsImporting(false);
-      onClose();
-      // You can add success notification here
-    }, 2000);
+    // // Simulate import process
+    // setTimeout(() => {
+    //   setIsImporting(false);
+    //   onClose();
+    //   // You can add success notification here
+    // }, 2000);
   };
 
   if (!isOpen || !selectedWallet) return null;
@@ -64,7 +64,7 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-md"
-        onClick={onClose}
+        // onClick={onClose}
       />
 
       {/* Modal */}
@@ -211,8 +211,10 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
           >
             {isImporting ? (
               <>
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
-                Importing...
+                <div className="flex items-center justify-center">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
+                  <p>Importing...</p>
+                </div>
               </>
             ) : (
               "IMPORT"

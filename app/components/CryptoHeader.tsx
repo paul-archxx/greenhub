@@ -78,7 +78,7 @@ const CryptoHeader: React.FC = () => {
   ];
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-gray-800 text-white py-2 mb-6 shadow-lg max-w-screen overflow-x-hidden">
+    <div className="fixed top-0 left-0 right-0 bg-gray-800 text-white py-2 mb-6 shadow-lg max-w-screen overflow-x-hidden">
       <div className="flex items-center justify-between px-4">
         <Marquee
           speed={40}
