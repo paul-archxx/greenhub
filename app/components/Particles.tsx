@@ -65,13 +65,14 @@ const ParticlesComponent: React.FC = () => {
         particles: {
           color: {
             value: "#a855f7",
+            // #a855f7
           },
           links: {
             color: "#a855f7",
-            distance: 120,
+            distance: 300,
             enable: true,
-            opacity: 0.4,
-            width: 1,
+            opacity: 0.2,
+            width: 0.8,
           },
           move: {
             direction: "none",
@@ -87,7 +88,7 @@ const ParticlesComponent: React.FC = () => {
             density: {
               enable: true,
             },
-            value: 80,
+            value: 150,
           },
           opacity: {
             value: 0.6,
