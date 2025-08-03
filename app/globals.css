@@ -8,6 +8,7 @@
   --gradient-start: #1e3a8a;
   --gradient-middle: #7c3aed;
   --gradient-end: #1e3a8a;
+  --site-background: #080a29;
 }
 
 @theme inline {
@@ -18,6 +19,7 @@
   --color-gradient-start: var(--gradient-start);
   --color-gradient-middle: var(--gradient-middle);
   --color-gradient-end: var(--gradient-end);
+  --color-site-background: var(--site-background);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

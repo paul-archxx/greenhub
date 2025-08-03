@@ -3,12 +3,17 @@ import IconSelector from "./IconSelector";
 
 const Footer: React.FC = () => {
   return (
-    <div className="bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-10 left-20 w-40 h-40 bg-purple-500/5 rounded-full blur-xl"></div>
-        <div className="absolute bottom-10 right-20 w-32 h-32 bg-blue-500/5 rounded-full blur-xl"></div>
-      </div>
+    <div
+      className="relative overflow-hidden"
+      style={{ backgroundColor: "#080a29" }}
+    >
+      {/* Background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+        style={{
+          backgroundImage: "url('/background-line.png')",
+        }}
+      />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 py-16">
         {/* Additional Cards */}
