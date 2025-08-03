@@ -1,0 +1,85 @@
+import React from "react";
+import IconSelector from "./IconSelector";
+
+const Footer: React.FC = () => {
+  return (
+    <div className="bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-10 left-20 w-40 h-40 bg-purple-500/5 rounded-full blur-xl"></div>
+        <div className="absolute bottom-10 right-20 w-32 h-32 bg-blue-500/5 rounded-full blur-xl"></div>
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-4 py-16">
+        {/* Additional Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-8">
+            <h3 className="text-2xl font-bold text-white mb-4">Defi Farming</h3>
+            <p className="text-gray-300">
+              Click here for Defi farming / commercial farming issues
+            </p>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-8">
+            <h3 className="text-2xl font-bold text-white mb-4">Validation</h3>
+            <p className="text-gray-300">
+              Click here to validate your wallet using multisig
+            </p>
+          </div>
+        </div>
+
+        {/* Footer Content */}
+        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/20">
+          {/* Left side - Legal links */}
+          <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8 mb-6 md:mb-0">
+            <a
+              href="#"
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              Privacy Policy
+            </a>
+            <a
+              href="#"
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              Term & Conditions
+            </a>
+            <div className="text-gray-400 text-sm">
+              © 2024, Decentralized Dapps
+            </div>
+          </div>
+
+          {/* Right side - Social media */}
+          <div className="flex space-x-4">
+            <a
+              href="#"
+              className="w-10 h-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+            >
+              <IconSelector icon="facebook" size={20} className="text-white" />
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+            >
+              <IconSelector icon="twitter" size={20} className="text-white" />
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+            >
+              <IconSelector icon="linkedin" size={20} className="text-white" />
+            </a>
+            <a
+              href="#"
+              className="w-10 h-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
+            >
+              <IconSelector icon="youtube" size={20} className="text-white" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Footer;
