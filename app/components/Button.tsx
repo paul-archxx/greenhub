@@ -7,11 +7,13 @@ interface ButtonProps {
   icon?: string;
   variant?: "primary" | "secondary";
   className?: string;
+  disabled?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
+  disabled = false,
   icon,
   variant = "primary",
   className = "",
@@ -28,6 +30,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
+      disabled={disabled}
       onClick={onClick}
       className={`${baseClasses} cursor-pointer ${variantClasses[variant]} ${className}`}
     >

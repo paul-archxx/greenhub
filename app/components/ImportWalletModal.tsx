@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Button from "./Button";
 
 interface Wallet {
   id: string;
@@ -110,7 +111,7 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
                   activeTab === tab.id
-                    ? "text-blue-600 border-b-2 border-blue-600"
+                    ? "text-primary-purple border-b-2 border-primary-purple"
                     : "text-gray-500 hover:text-gray-700"
                 }`}
               >
@@ -145,10 +146,10 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
           </p>
 
           {/* Import Button */}
-          <button
+          <Button
             onClick={handleImport}
             disabled={!phrase.trim() || isImporting}
-            className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+            className="w-full  text-white py-3 px-4 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
           >
             {isImporting ? (
               <>
@@ -158,7 +159,7 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
             ) : (
               "IMPORT"
             )}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
