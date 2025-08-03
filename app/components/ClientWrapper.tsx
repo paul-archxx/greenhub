@@ -6,6 +6,7 @@ import SyncTypeCards from "./SyncTypeCards";
 import Footer from "./Footer";
 import Image from "next/image";
 import ParticlesComponent from "./Particles";
+import CryptoHeader from "./CryptoHeader";
 
 const ClientWrapper: React.FC = () => {
   return (
@@ -52,14 +53,8 @@ const ClientWrapper: React.FC = () => {
           opacity: 0.3,
         }}
       />
-      {/* Background image */}
-      {/* <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('/background-line.png')",
-        }}
-      /> */}
-      {/* <CryptoHeader /> */}
+
+      <CryptoHeader />
       <HeroSection />
       <div className="py-16">
         <SyncTypeCards />
