@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useAppStore } from "../store/useAppStore";
-import IconSelector from "./IconSelector";
+import Button from "./Button";
 
 const HeroSection: React.FC = () => {
   const { isWalletConnected, selectedChain, setWalletConnected } =
@@ -82,23 +82,13 @@ const HeroSection: React.FC = () => {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mb-16">
-          <button
-            onClick={handleConnectWallet}
-            className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2"
-          >
-            <IconSelector icon="wallet" size={20} />
-            <span>
-              {isWalletConnected ? "Wallet Connected" : "Connect Wallet"}
-            </span>
-          </button>
+          <Button onClick={handleConnectWallet} icon="wallet">
+            {isWalletConnected ? "Wallet Connected" : "Connect Wallet"}
+          </Button>
 
-          <button
-            onClick={handleSelectChain}
-            className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2"
-          >
-            <span>{selectedChain}</span>
-            <IconSelector icon="chevronDown" size={20} />
-          </button>
+          <Button onClick={handleSelectChain} icon="chevronDown">
+            {selectedChain}
+          </Button>
         </div>
 
         {/* Sync Type Section */}
