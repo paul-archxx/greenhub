@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useAppStore } from "../store/useAppStore";
 import useStopScroll from "@/hooks/useStopScroll";
 
@@ -75,7 +75,25 @@ const wallets: Wallet[] = [
 const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
   const { setWalletConnected, setSelectedWallet } = useAppStore();
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const [shouldRender, setShouldRender] = useState<boolean>(false);
+
   useStopScroll(isOpen);
+
+  // Handle animation states
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+      setIsAnimating(true);
+    } else {
+      setIsAnimating(false);
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+      }, 300); // Match the transition duration
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
   // Filter wallets based on search query
   const filteredWallets = useMemo(() => {
     if (!searchQuery.trim()) {
@@ -132,18 +150,26 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  if (!isOpen) return null;
+  if (!shouldRender) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
+          isAnimating ? "opacity-100" : "opacity-0"
+        }`}
         onClick={handleClose}
       />
 
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden">
+      <div
+        className={`relative bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden transition-all duration-300 transform ${
+          isAnimating
+            ? "opacity-100 scale-100 translate-y-0"
+            : "opacity-0 scale-95 translate-y-4"
+        }`}
+      >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center space-x-3">
