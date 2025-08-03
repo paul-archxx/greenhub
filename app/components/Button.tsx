@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
   className = "",
 }) => {
   const baseClasses =
-    "relative overflow-hidden font-semibold py-4 px-8 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 group";
+    "relative overflow-hidden font-semibold py-4 px-8 rounded-full transition-all duration-300 flex items-center justify-center space-x-2 group";
 
   const variantClasses = {
     primary:
