@@ -5,6 +5,7 @@ import HeroSection from "./HeroSection";
 import SyncTypeCards from "./SyncTypeCards";
 import Footer from "./Footer";
 import Image from "next/image";
+import ParticlesComponent from "./Particles";
 
 const ClientWrapper: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const ClientWrapper: React.FC = () => {
       className="min-h-screen relative isolate overflow-x-hidden"
       style={{ backgroundColor: "#080a29" }}
     >
+      <ParticlesComponent />
       {/* Left Light Effect */}
       <div
         className="absolute"
