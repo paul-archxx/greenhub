@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
   return (
     <div
       className="relative overflow-hidden isolate"
-      style={{ backgroundColor: "#080a29" }}
+      // style={{ backgroundColor: "#080a29" }}
     >
       {/* Background image */}
       <div

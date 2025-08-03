@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   className = "",
 }) => {
   const baseClasses =
-    "relative overflow-hidden font-semibold py-3 px-8 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 group";
+    "relative overflow-hidden font-semibold py-4 px-8 rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 group";
 
   const variantClasses = {
     primary:
@@ -29,14 +29,14 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      className={`${baseClasses} ${variantClasses[variant]} ${className}`}
+      className={`${baseClasses} cursor-pointer ${variantClasses[variant]} ${className}`}
     >
       {/* Flare/Shine effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
 
       {/* Content */}
       <div className="relative z-10 flex items-center space-x-2">
-        {icon && <IconSelector icon={icon} size={20} />}
+        {/* {icon && <IconSelector icon={icon} size={20} />} */}
         <span>{children}</span>
       </div>
     </button>

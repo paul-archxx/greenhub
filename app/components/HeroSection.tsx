@@ -1,68 +1,14 @@
 "use client";
 
 import React from "react";
-import { useAppStore } from "../store/useAppStore";
 import Button from "./Button";
 
 const HeroSection: React.FC = () => {
-  const { isWalletConnected, selectedChain, setWalletConnected } =
-    useAppStore();
-
-  const handleConnectWallet = () => {
-    setWalletConnected(!isWalletConnected);
-  };
-
-  const handleSelectChain = () => {
-    // This would typically open a dropdown or modal
-    console.log("Select chain clicked");
-  };
-
   return (
-    <div
-      className="min-h-screen relative overflow-hidden isolate"
-      style={{ backgroundColor: "#080a29" }}
-    >
-      {/* Background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
-        style={{
-          backgroundImage: "url('/background-line.png')",
-        }}
-      />
-
-      {/* Left Light Effect */}
-      <div
-        className="absolute"
-        style={{
-          top: "-70%",
-          left: "-60%",
-          width: "2000px",
-          height: "2000px",
-          zIndex: -1,
-          background:
-            "radial-gradient(34.98% 34.98% at 50% 50%, #725bda 0, rgba(6, 19, 45, 0) 100%)",
-          opacity: 0.5,
-        }}
-      />
-
-      {/* Right Light Effect */}
-      <div
-        className="absolute"
-        style={{
-          top: "-40%",
-          left: "-30%",
-          width: "2000px",
-          height: "2000px",
-          zIndex: -1,
-          background:
-            "radial-gradient(34.98% 34.98% at 50% 50%, #725bda 0, rgba(6, 19, 45, 0) 100%)",
-          opacity: 0.5,
-        }}
-      />
-
+    <div className="min-h-screen relative overflow-hidden isolate">
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
         {/* Protocol Badge */}
-        <div className="bg-purple-600/20 backdrop-blur-sm border border-purple-500/30 rounded-lg px-4 py-2 mb-8">
+        <div className="bg-purple-600/20 backdrop-blur-sm border border-purple-500/30 rounded-full px-4 py-2 mb-8">
           <span className="text-white text-sm font-medium">
             Decentralized Protocol
           </span>
@@ -82,20 +28,9 @@ const HeroSection: React.FC = () => {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mb-16">
-          <Button onClick={handleConnectWallet} icon="wallet">
-            {isWalletConnected ? "Wallet Connected" : "Connect Wallet"}
-          </Button>
+          <Button>Connect Wallet</Button>
 
-          <Button onClick={handleSelectChain} icon="chevronDown">
-            {selectedChain}
-          </Button>
-        </div>
-
-        {/* Sync Type Section */}
-        <div className="w-full max-w-6xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">
-            Select Sync Type
-          </h2>
+          <Button>Select Chain</Button>
         </div>
       </div>
     </div>
