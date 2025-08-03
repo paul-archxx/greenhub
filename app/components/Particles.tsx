@@ -64,8 +64,8 @@ const ParticlesComponent: React.FC = () => {
         },
         particles: {
           color: {
-            value: "#a855f7",
             // #a855f7
+            value: "#a855f7",
           },
           links: {
             color: "#a855f7",
