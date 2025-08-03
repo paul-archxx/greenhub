@@ -52,7 +52,7 @@ const HeroSection: React.FC = () => {
               : "Connect Wallet"}
           </Button>
 
-          <Button onClick={handleSelectChain}>Select Chain</Button>
+          {/* <Button onClick={handleSelectChain}>Select Chain</Button> */}
         </div>
       </div>
 

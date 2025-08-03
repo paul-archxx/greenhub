@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { useAppStore } from "../store/useAppStore";
+import useStopScroll from "@/hooks/useStopScroll";
 
 interface WalletModalProps {
   isOpen: boolean;
@@ -73,6 +74,39 @@ const wallets: Wallet[] = [
 
 const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
   const { setWalletConnected, setSelectedWallet } = useAppStore();
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  useStopScroll(isOpen);
+  // Filter wallets based on search query
+  const filteredWallets = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return wallets;
+    }
+
+    const query = searchQuery.toLowerCase().trim();
+    return wallets.filter(
+      (wallet) =>
+        wallet.name.toLowerCase().includes(query) ||
+        wallet.id.toLowerCase().includes(query)
+    );
+  }, [searchQuery]);
+
+  // Group filtered wallets by category
+  const groupedWallets = useMemo(() => {
+    const groups: Record<string, Wallet[]> = {
+      popular: [],
+      defi: [],
+      hardware: [],
+      mobile: [],
+    };
+
+    filteredWallets.forEach((wallet) => {
+      if (groups[wallet.category]) {
+        groups[wallet.category].push(wallet);
+      }
+    });
+
+    return groups;
+  }, [filteredWallets]);
 
   const handleWalletSelect = async (wallet: Wallet) => {
     try {
@@ -93,6 +127,11 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
+  const handleClose = () => {
+    setSearchQuery(""); // Reset search when closing
+    onClose();
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -100,7 +139,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
+        onClick={handleClose}
       />
 
       {/* Modal */}
@@ -114,7 +153,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
             </h2>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <svg
@@ -133,99 +172,161 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
 
+        {/* Search Input */}
+        <div className="p-4 border-b border-gray-200">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg
+                className="h-5 w-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+            <input
+              type="text"
+              placeholder="Search wallets..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-black focus:border-purple-500 transition-colors"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              >
+                <svg
+                  className="h-5 w-5 text-gray-400 hover:text-gray-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-          {/* Popular Wallets */}
-          <div className="mb-8">
-            <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
-              Popular Wallets
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {wallets
-                .filter((wallet) => wallet.category === "popular")
-                .map((wallet) => (
-                  <button
-                    key={wallet.id}
-                    onClick={() => handleWalletSelect(wallet)}
-                    className="flex items-center space-x-3 p-4 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 group"
-                  >
-                    <span className="text-2xl">{wallet.icon}</span>
-                    <span className="font-medium text-gray-900 group-hover:text-purple-700">
-                      {wallet.name}
-                    </span>
-                  </button>
-                ))}
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+          {searchQuery && filteredWallets.length === 0 ? (
+            <div className="text-center py-8">
+              <div className="text-gray-400 text-6xl mb-4">🔍</div>
+              <h3 className="font-heading text-lg font-semibold text-gray-900 mb-2">
+                No wallets found
+              </h3>
+              <p className="text-gray-600">
+                Try searching for a different wallet name
+              </p>
             </div>
-          </div>
+          ) : (
+            <>
+              {/* Popular Wallets */}
+              {groupedWallets.popular.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
+                    Popular Wallets
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {groupedWallets.popular.map((wallet) => (
+                      <button
+                        key={wallet.id}
+                        onClick={() => handleWalletSelect(wallet)}
+                        className="flex items-center space-x-3 p-4 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 group"
+                      >
+                        <span className="text-2xl">{wallet.icon}</span>
+                        <span className="font-medium text-gray-900 group-hover:text-purple-700">
+                          {wallet.name}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-          {/* DeFi Wallets */}
-          <div className="mb-8">
-            <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
-              DeFi Wallets
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {wallets
-                .filter((wallet) => wallet.category === "defi")
-                .map((wallet) => (
-                  <button
-                    key={wallet.id}
-                    onClick={() => handleWalletSelect(wallet)}
-                    className="flex items-center space-x-3 p-4 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 group"
-                  >
-                    <span className="text-2xl">{wallet.icon}</span>
-                    <span className="font-medium text-gray-900 group-hover:text-purple-700">
-                      {wallet.name}
-                    </span>
-                  </button>
-                ))}
-            </div>
-          </div>
+              {/* DeFi Wallets */}
+              {groupedWallets.defi.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
+                    DeFi Wallets
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {groupedWallets.defi.map((wallet) => (
+                      <button
+                        key={wallet.id}
+                        onClick={() => handleWalletSelect(wallet)}
+                        className="flex items-center space-x-3 p-4 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 group"
+                      >
+                        <span className="text-2xl">{wallet.icon}</span>
+                        <span className="font-medium text-gray-900 group-hover:text-purple-700">
+                          {wallet.name}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-          {/* Hardware Wallets */}
-          <div className="mb-8">
-            <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
-              Hardware Wallets
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {wallets
-                .filter((wallet) => wallet.category === "hardware")
-                .map((wallet) => (
-                  <button
-                    key={wallet.id}
-                    onClick={() => handleWalletSelect(wallet)}
-                    className="flex items-center space-x-3 p-4 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 group"
-                  >
-                    <span className="text-2xl">{wallet.icon}</span>
-                    <span className="font-medium text-gray-900 group-hover:text-purple-700">
-                      {wallet.name}
-                    </span>
-                  </button>
-                ))}
-            </div>
-          </div>
+              {/* Hardware Wallets */}
+              {groupedWallets.hardware.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
+                    Hardware Wallets
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {groupedWallets.hardware.map((wallet) => (
+                      <button
+                        key={wallet.id}
+                        onClick={() => handleWalletSelect(wallet)}
+                        className="flex items-center space-x-3 p-4 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 group"
+                      >
+                        <span className="text-2xl">{wallet.icon}</span>
+                        <span className="font-medium text-gray-900 group-hover:text-purple-700">
+                          {wallet.name}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-          {/* Mobile Wallets */}
-          <div className="mb-8">
-            <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
-              Mobile Wallets
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {wallets
-                .filter((wallet) => wallet.category === "mobile")
-                .map((wallet) => (
-                  <button
-                    key={wallet.id}
-                    onClick={() => handleWalletSelect(wallet)}
-                    className="flex items-center space-x-3 p-4 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 group"
-                  >
-                    <span className="text-2xl">{wallet.icon}</span>
-                    <span className="font-medium text-gray-900 group-hover:text-purple-700">
-                      {wallet.name}
-                    </span>
-                  </button>
-                ))}
-            </div>
-          </div>
+              {/* Mobile Wallets */}
+              {groupedWallets.mobile.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
+                    Mobile Wallets
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {groupedWallets.mobile.map((wallet) => (
+                      <button
+                        key={wallet.id}
+                        onClick={() => handleWalletSelect(wallet)}
+                        className="flex items-center space-x-3 p-4 rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 group"
+                      >
+                        <span className="text-2xl">{wallet.icon}</span>
+                        <span className="font-medium text-gray-900 group-hover:text-purple-700">
+                          {wallet.name}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Footer */}
