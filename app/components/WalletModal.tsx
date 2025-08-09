@@ -25,8 +25,7 @@ const wallets: Wallet[] = [
     id: "metamask",
     name: "MetaMask",
     icon: "🦊",
-    imageUrl:
-      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/metamask.svg",
+    imageUrl: "/wallet-images/obvious/metamask.png",
     category: "popular",
   },
   {
@@ -34,14 +33,15 @@ const wallets: Wallet[] = [
     name: "WalletConnect",
     icon: "🔗",
     imageUrl:
-      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/walletconnect.svg",
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/walletconnect.svg",
     category: "popular",
   },
   {
     id: "coinbase",
     name: "Coinbase Wallet",
     icon: "🪙",
-    imageUrl: "https://avatars.githubusercontent.com/u/18060234?s=200&v=4",
+    imageUrl:
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/coinbase.svg",
     category: "popular",
   },
   {
@@ -49,14 +49,15 @@ const wallets: Wallet[] = [
     name: "Trust Wallet",
     icon: "🛡️",
     imageUrl:
-      "https://trustwallet.com/assets/images/media/assets/trust_platform.svg",
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/trust.svg",
     category: "popular",
   },
   {
     id: "phantom",
     name: "Phantom",
     icon: "👻",
-    imageUrl: "https://phantom.app/img/phantom-logo.svg",
+    imageUrl:
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/phantom.svg",
     category: "popular",
   },
   {
@@ -64,14 +65,15 @@ const wallets: Wallet[] = [
     name: "Ledger Live",
     icon: "🔐",
     imageUrl:
-      "https://www.ledger.com/wp-content/themes/ledger-v2/public/images/ledger-logo-long.svg",
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/ledger.svg",
     category: "hardware",
   },
   {
     id: "trezor",
     name: "Trezor",
     icon: "💎",
-    imageUrl: "https://trezor.io/static/images/trezor-logo-h.svg",
+    imageUrl:
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/trezor.svg",
     category: "hardware",
   },
 
@@ -81,7 +83,7 @@ const wallets: Wallet[] = [
     name: "Uniswap",
     icon: "🦄",
     imageUrl:
-      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/uni.svg",
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/tokens/branded/UNI.svg",
     category: "defi",
   },
   {
@@ -89,14 +91,15 @@ const wallets: Wallet[] = [
     name: "1inch Wallet",
     icon: "⚡",
     imageUrl:
-      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/1inch.svg",
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/tokens/branded/1INCH.svg",
     category: "defi",
   },
   {
     id: "argent",
     name: "Argent",
     icon: "🛡️",
-    imageUrl: "https://www.argent.xyz/logo.svg",
+    imageUrl:
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/argent.svg",
     category: "defi",
   },
   {
@@ -104,42 +107,46 @@ const wallets: Wallet[] = [
     name: "Gnosis Safe",
     icon: "🔒",
     imageUrl:
-      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/gno.svg",
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/safe.svg",
     category: "defi",
   },
   {
     id: "rainbow",
     name: "Rainbow",
     icon: "🌈",
-    imageUrl: "https://avatars.githubusercontent.com/u/48327834?s=200&v=4",
+    imageUrl:
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/rainbow.svg",
     category: "defi",
   },
   {
     id: "imtoken",
     name: "imToken",
     icon: "📱",
-    imageUrl: "https://token.im/img/logoIcon.png",
+    imageUrl:
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/imtoken.svg",
     category: "mobile",
   },
   {
     id: "tokenpocket",
     name: "TokenPocket",
     icon: "💼",
-    imageUrl: "https://www.tokenpocket.pro/img/logo.png",
+    imageUrl:
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/tokenpocket.svg",
     category: "mobile",
   },
   {
     id: "safepal",
     name: "SafePal",
     icon: "🛡️",
-    imageUrl: "https://www.safepal.io/sfp.png",
+    imageUrl: "/wallet-images/obvious/safepal.png",
     category: "mobile",
   },
   {
     id: "mathwallet",
     name: "MathWallet",
     icon: "🧮",
-    imageUrl: "https://mathwallet.org/images/wallet/math.png",
+    imageUrl:
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/mathwallet.svg",
     category: "mobile",
   },
 
@@ -149,21 +156,23 @@ const wallets: Wallet[] = [
     name: "Binance Wallet",
     icon: "🟡",
     imageUrl:
-      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/bnb.svg",
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/tokens/branded/BNB.svg",
     category: "popular",
   },
   {
     id: "okx",
     name: "OKX Wallet",
     icon: "⚫",
-    imageUrl: "https://static.okx.com/cdn/assets/imgs/221/58E63FEA47A2B7D7.png",
+    imageUrl:
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/okx.svg",
     category: "popular",
   },
   {
     id: "bitkeep",
     name: "BitKeep",
     icon: "💜",
-    imageUrl: "https://bitkeep.com/images/logo.png",
+    imageUrl:
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/bitget.svg",
     category: "popular",
   },
   {
@@ -210,14 +219,16 @@ const wallets: Wallet[] = [
     id: "exodus",
     name: "Exodus",
     icon: "🚪",
-    imageUrl: "https://www.exodus.com/img/exodus-logo.svg",
+    imageUrl:
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/exodus.svg",
     category: "mobile",
   },
   {
     id: "atomic",
     name: "Atomic Wallet",
     icon: "⚛️",
-    imageUrl: "https://atomicwallet.io/images/press-kit/atomic_logo.svg",
+    imageUrl:
+      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/atomic.svg",
     category: "mobile",
   },
   {
@@ -562,7 +573,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                               >
                                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/5 to-blue-500/0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 <div className="relative flex items-center space-x-3">
-                                  <div className="w-8 h-8 rounded-lg overflow-hidden bg-white/10 flex items-center justify-center">
+                                  <div className="size-10 rounded-lg overflow-hidden flex items-center justify-center">
                                     <Image
                                       src={wallet.imageUrl}
                                       alt={`${wallet.name} logo`}
