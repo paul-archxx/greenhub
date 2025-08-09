@@ -39,16 +39,14 @@ const wallets: Wallet[] = [
     id: "coinbase",
     name: "Coinbase Wallet",
     icon: "🪙",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/coinbase.svg",
+    imageUrl: "/wallet-images/obvious/coinbase.png",
     category: "popular",
   },
   {
     id: "trust",
     name: "Trust Wallet",
     icon: "🛡️",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/trust.svg",
+    imageUrl: "/wallet-images/obvious/trust.png",
     category: "popular",
   },
   {
@@ -63,8 +61,7 @@ const wallets: Wallet[] = [
     id: "ledger",
     name: "Ledger Live",
     icon: "🔐",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/ledger.svg",
+    imageUrl: "/wallet-images/obvious/Ledger-live.png",
     category: "hardware",
   },
   {
@@ -97,32 +94,28 @@ const wallets: Wallet[] = [
     id: "argent",
     name: "Argent",
     icon: "🛡️",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/argent.svg",
+    imageUrl: "/wallet-images/obvious/Argent.jfif",
     category: "defi",
   },
   {
     id: "gnosis",
     name: "Gnosis Safe",
     icon: "🔒",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/safe.svg",
+    imageUrl: "/wallet-images/obvious/gnosis.jfif",
     category: "defi",
   },
   {
     id: "rainbow",
     name: "Rainbow",
     icon: "🌈",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/rainbow.svg",
+    imageUrl: "/wallet-images/obvious/rainbow.png",
     category: "defi",
   },
   {
     id: "imtoken",
     name: "imToken",
     icon: "📱",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/imtoken.svg",
+    imageUrl: "/wallet-images/obvious/imToken.png",
     category: "mobile",
   },
   {
@@ -160,8 +153,7 @@ const wallets: Wallet[] = [
     id: "okx",
     name: "OKX Wallet",
     icon: "⚫",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/okx.svg",
+    imageUrl: "/wallet-images/obvious/okx.jpeg",
     category: "popular",
   },
   {
@@ -252,7 +244,7 @@ const wallets: Wallet[] = [
     id: "mycrypto",
     name: "MyCrypto",
     icon: "🌊",
-    imageUrl: "/wallet-images/numbered/72.png",
+    imageUrl: "/wallet-images/obvious/crypto.png",
     category: "popular",
   },
   {
