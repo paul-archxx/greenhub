@@ -103,7 +103,7 @@ const SyncTypeCards: React.FC = () => {
           Select Sync Type
         </h2>
         <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-          Choose the type of issue you're experiencing to get the right
+          Choose the type of issue you&apos;re experiencing to get the right
           assistance
         </p>
       </div>

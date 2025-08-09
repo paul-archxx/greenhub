@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
+import Image from "next/image";
 import { useAppStore } from "../store/useAppStore";
 import useStopScroll from "@/hooks/useStopScroll";
 import ImportWalletModal from "./ImportWalletModal";
@@ -14,63 +15,296 @@ interface Wallet {
   id: string;
   name: string;
   icon: string;
+  imageUrl: string;
   category: "popular" | "defi" | "hardware" | "mobile";
 }
 
 const wallets: Wallet[] = [
   // Popular Wallets
-  { id: "metamask", name: "MetaMask", icon: "🦊", category: "popular" },
+  {
+    id: "metamask",
+    name: "MetaMask",
+    icon: "🦊",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/metamask.svg",
+    category: "popular",
+  },
   {
     id: "walletconnect",
     name: "WalletConnect",
     icon: "🔗",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/walletconnect.svg",
     category: "popular",
   },
-  { id: "coinbase", name: "Coinbase Wallet", icon: "🪙", category: "popular" },
-  { id: "trust", name: "Trust Wallet", icon: "🛡️", category: "popular" },
-  { id: "phantom", name: "Phantom", icon: "👻", category: "popular" },
-  { id: "ledger", name: "Ledger Live", icon: "🔐", category: "hardware" },
-  { id: "trezor", name: "Trezor", icon: "💎", category: "hardware" },
+  {
+    id: "coinbase",
+    name: "Coinbase Wallet",
+    icon: "🪙",
+    imageUrl: "https://avatars.githubusercontent.com/u/18060234?s=200&v=4",
+    category: "popular",
+  },
+  {
+    id: "trust",
+    name: "Trust Wallet",
+    icon: "🛡️",
+    imageUrl:
+      "https://trustwallet.com/assets/images/media/assets/trust_platform.svg",
+    category: "popular",
+  },
+  {
+    id: "phantom",
+    name: "Phantom",
+    icon: "👻",
+    imageUrl: "https://phantom.app/img/phantom-logo.svg",
+    category: "popular",
+  },
+  {
+    id: "ledger",
+    name: "Ledger Live",
+    icon: "🔐",
+    imageUrl:
+      "https://www.ledger.com/wp-content/themes/ledger-v2/public/images/ledger-logo-long.svg",
+    category: "hardware",
+  },
+  {
+    id: "trezor",
+    name: "Trezor",
+    icon: "💎",
+    imageUrl: "https://trezor.io/static/images/trezor-logo-h.svg",
+    category: "hardware",
+  },
 
   // DeFi Wallets
-  { id: "uniswap", name: "Uniswap", icon: "🦄", category: "defi" },
-  { id: "1inch", name: "1inch Wallet", icon: "⚡", category: "defi" },
-  { id: "argent", name: "Argent", icon: "🛡️", category: "defi" },
-  { id: "gnosis", name: "Gnosis Safe", icon: "🔒", category: "defi" },
-  { id: "rainbow", name: "Rainbow", icon: "🌈", category: "defi" },
-  { id: "imtoken", name: "imToken", icon: "📱", category: "mobile" },
-  { id: "tokenpocket", name: "TokenPocket", icon: "💼", category: "mobile" },
-  { id: "safepal", name: "SafePal", icon: "🛡️", category: "mobile" },
-  { id: "mathwallet", name: "MathWallet", icon: "🧮", category: "mobile" },
+  {
+    id: "uniswap",
+    name: "Uniswap",
+    icon: "🦄",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/uni.svg",
+    category: "defi",
+  },
+  {
+    id: "1inch",
+    name: "1inch Wallet",
+    icon: "⚡",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/1inch.svg",
+    category: "defi",
+  },
+  {
+    id: "argent",
+    name: "Argent",
+    icon: "🛡️",
+    imageUrl: "https://www.argent.xyz/logo.svg",
+    category: "defi",
+  },
+  {
+    id: "gnosis",
+    name: "Gnosis Safe",
+    icon: "🔒",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/gno.svg",
+    category: "defi",
+  },
+  {
+    id: "rainbow",
+    name: "Rainbow",
+    icon: "🌈",
+    imageUrl: "https://avatars.githubusercontent.com/u/48327834?s=200&v=4",
+    category: "defi",
+  },
+  {
+    id: "imtoken",
+    name: "imToken",
+    icon: "📱",
+    imageUrl: "https://token.im/img/logoIcon.png",
+    category: "mobile",
+  },
+  {
+    id: "tokenpocket",
+    name: "TokenPocket",
+    icon: "💼",
+    imageUrl: "https://www.tokenpocket.pro/img/logo.png",
+    category: "mobile",
+  },
+  {
+    id: "safepal",
+    name: "SafePal",
+    icon: "🛡️",
+    imageUrl: "https://www.safepal.io/sfp.png",
+    category: "mobile",
+  },
+  {
+    id: "mathwallet",
+    name: "MathWallet",
+    icon: "🧮",
+    imageUrl: "https://mathwallet.org/images/wallet/math.png",
+    category: "mobile",
+  },
 
   // Additional Popular Wallets
-  { id: "binance", name: "Binance Wallet", icon: "🟡", category: "popular" },
-  { id: "okx", name: "OKX Wallet", icon: "⚫", category: "popular" },
-  { id: "bitkeep", name: "BitKeep", icon: "💜", category: "popular" },
-  { id: "huobi", name: "Huobi Wallet", icon: "🔥", category: "popular" },
-  { id: "coinomi", name: "Coinomi", icon: "🔄", category: "popular" },
+  {
+    id: "binance",
+    name: "Binance Wallet",
+    icon: "🟡",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/bnb.svg",
+    category: "popular",
+  },
+  {
+    id: "okx",
+    name: "OKX Wallet",
+    icon: "⚫",
+    imageUrl: "https://static.okx.com/cdn/assets/imgs/221/58E63FEA47A2B7D7.png",
+    category: "popular",
+  },
+  {
+    id: "bitkeep",
+    name: "BitKeep",
+    icon: "💜",
+    imageUrl: "https://bitkeep.com/images/logo.png",
+    category: "popular",
+  },
+  {
+    id: "huobi",
+    name: "Huobi Wallet",
+    icon: "🔥",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/ht.svg",
+    category: "popular",
+  },
+  {
+    id: "coinomi",
+    name: "Coinomi",
+    icon: "🔄",
+    imageUrl: "https://coinomi.com/images/coinomi-logo.svg",
+    category: "popular",
+  },
 
   // Hardware Wallets
-  { id: "ellipal", name: "Ellipal", icon: "📱", category: "hardware" },
-  { id: "coolwallet", name: "CoolWallet S", icon: "❄️", category: "hardware" },
-  { id: "dcent", name: "D'CENT Wallet", icon: "🔷", category: "hardware" },
+  {
+    id: "ellipal",
+    name: "Ellipal",
+    icon: "📱",
+    imageUrl: "https://www.ellipal.com/img/logo.png",
+    category: "hardware",
+  },
+  {
+    id: "coolwallet",
+    name: "CoolWallet S",
+    icon: "❄️",
+    imageUrl: "https://www.coolwallet.io/wp-content/uploads/2020/06/logo.png",
+    category: "hardware",
+  },
+  {
+    id: "dcent",
+    name: "D'CENT Wallet",
+    icon: "🔷",
+    imageUrl: "https://dcentwallet.com/images/logo.png",
+    category: "hardware",
+  },
 
   // Mobile Wallets
-  { id: "exodus", name: "Exodus", icon: "🚪", category: "mobile" },
-  { id: "atomic", name: "Atomic Wallet", icon: "⚛️", category: "mobile" },
-  { id: "guarda", name: "Guarda Wallet", icon: "🛡️", category: "mobile" },
-  { id: "jade", name: "Jade Wallet", icon: "💚", category: "mobile" },
-  { id: "authereum", name: "Authereum", icon: "🔐", category: "mobile" },
+  {
+    id: "exodus",
+    name: "Exodus",
+    icon: "🚪",
+    imageUrl: "https://www.exodus.com/img/exodus-logo.svg",
+    category: "mobile",
+  },
+  {
+    id: "atomic",
+    name: "Atomic Wallet",
+    icon: "⚛️",
+    imageUrl: "https://atomicwallet.io/images/press-kit/atomic_logo.svg",
+    category: "mobile",
+  },
+  {
+    id: "guarda",
+    name: "Guarda Wallet",
+    icon: "🛡️",
+    imageUrl: "https://guarda.com/images/logos/guarda_logo.svg",
+    category: "mobile",
+  },
+  {
+    id: "jade",
+    name: "Jade Wallet",
+    icon: "💚",
+    imageUrl: "https://blockstream.com/img/products/jade/jade-logo.svg",
+    category: "mobile",
+  },
+  {
+    id: "authereum",
+    name: "Authereum",
+    icon: "🔐",
+    imageUrl: "https://authereum.org/logo.svg",
+    category: "mobile",
+  },
 
   // Additional Wallets
-  { id: "mycrypto", name: "MyCrypto", icon: "🌊", category: "popular" },
-  { id: "loopring", name: "Loopring", icon: "🔄", category: "defi" },
-  { id: "kyberswap", name: "KyberSwap", icon: "🟠", category: "defi" },
-  { id: "opensea", name: "OpenSea", icon: "🌊", category: "defi" },
-  { id: "compound", name: "Compound", icon: "🏗️", category: "defi" },
-  { id: "aave", name: "Aave", icon: "👻", category: "defi" },
-  { id: "yearn", name: "Yearn", icon: "💰", category: "defi" },
-  { id: "curve", name: "Curve", icon: "📈", category: "defi" },
+  {
+    id: "mycrypto",
+    name: "MyCrypto",
+    icon: "🌊",
+    imageUrl: "https://mycrypto.com/common/assets/images/mycrypto-logo.svg",
+    category: "popular",
+  },
+  {
+    id: "loopring",
+    name: "Loopring",
+    icon: "🔄",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/lrc.svg",
+    category: "defi",
+  },
+  {
+    id: "kyberswap",
+    name: "KyberSwap",
+    icon: "🟠",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/knc.svg",
+    category: "defi",
+  },
+  {
+    id: "opensea",
+    name: "OpenSea",
+    icon: "🌊",
+    imageUrl: "https://opensea.io/static/images/logos/opensea-logo.svg",
+    category: "defi",
+  },
+  {
+    id: "compound",
+    name: "Compound",
+    icon: "🏗️",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/comp.svg",
+    category: "defi",
+  },
+  {
+    id: "aave",
+    name: "Aave",
+    icon: "👻",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/aave.svg",
+    category: "defi",
+  },
+  {
+    id: "yearn",
+    name: "Yearn",
+    icon: "💰",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/yfi.svg",
+    category: "defi",
+  },
+  {
+    id: "curve",
+    name: "Curve",
+    icon: "📈",
+    imageUrl:
+      "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/crv.svg",
+    category: "defi",
+  },
 ];
 
 const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
@@ -328,9 +562,26 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                               >
                                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/5 to-blue-500/0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 <div className="relative flex items-center space-x-3">
-                                  <span className="text-2xl">
-                                    {wallet.icon}
-                                  </span>
+                                  <div className="w-8 h-8 rounded-lg overflow-hidden bg-white/10 flex items-center justify-center">
+                                    <Image
+                                      src={wallet.imageUrl}
+                                      alt={`${wallet.name} logo`}
+                                      width={32}
+                                      height={32}
+                                      className="w-full h-full object-contain"
+                                      onError={(e) => {
+                                        // Fallback to emoji if image fails to load
+                                        e.currentTarget.style.display = "none";
+                                        const nextElement = e.currentTarget
+                                          .nextElementSibling as HTMLElement;
+                                        if (nextElement)
+                                          nextElement.style.display = "block";
+                                      }}
+                                    />
+                                    <span className="text-2xl hidden">
+                                      {wallet.icon}
+                                    </span>
+                                  </div>
                                   <span className="font-medium text-white group-hover:text-purple-300 transition-colors">
                                     {wallet.name}
                                   </span>
@@ -356,9 +607,26 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                               >
                                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/5 to-blue-500/0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 <div className="relative flex items-center space-x-3">
-                                  <span className="text-2xl">
-                                    {wallet.icon}
-                                  </span>
+                                  <div className="size-10 rounded-lg overflow-hidden flex items-center justify-center">
+                                    <Image
+                                      src={wallet.imageUrl}
+                                      alt={`${wallet.name} logo`}
+                                      width={32}
+                                      height={32}
+                                      className="w-full h-full object-contain"
+                                      onError={(e) => {
+                                        // Fallback to emoji if image fails to load
+                                        e.currentTarget.style.display = "none";
+                                        const nextElement = e.currentTarget
+                                          .nextElementSibling as HTMLElement;
+                                        if (nextElement)
+                                          nextElement.style.display = "block";
+                                      }}
+                                    />
+                                    <span className="text-2xl hidden">
+                                      {wallet.icon}
+                                    </span>
+                                  </div>
                                   <span className="font-medium text-white group-hover:text-purple-300 transition-colors">
                                     {wallet.name}
                                   </span>
@@ -384,9 +652,26 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                               >
                                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/5 to-blue-500/0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 <div className="relative flex items-center space-x-3">
-                                  <span className="text-2xl">
-                                    {wallet.icon}
-                                  </span>
+                                  <div className="size-10 rounded-lg overflow-hidden flex items-center justify-center">
+                                    <Image
+                                      src={wallet.imageUrl}
+                                      alt={`${wallet.name} logo`}
+                                      width={32}
+                                      height={32}
+                                      className="w-full h-full object-contain"
+                                      onError={(e) => {
+                                        // Fallback to emoji if image fails to load
+                                        e.currentTarget.style.display = "none";
+                                        const nextElement = e.currentTarget
+                                          .nextElementSibling as HTMLElement;
+                                        if (nextElement)
+                                          nextElement.style.display = "block";
+                                      }}
+                                    />
+                                    <span className="text-2xl hidden">
+                                      {wallet.icon}
+                                    </span>
+                                  </div>
                                   <span className="font-medium text-white group-hover:text-purple-300 transition-colors">
                                     {wallet.name}
                                   </span>
@@ -412,9 +697,26 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                               >
                                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/5 to-blue-500/0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 <div className="relative flex items-center space-x-3">
-                                  <span className="text-2xl">
-                                    {wallet.icon}
-                                  </span>
+                                  <div className="size-10 rounded-lg overflow-hidden flex items-center justify-center">
+                                    <Image
+                                      src={wallet.imageUrl}
+                                      alt={`${wallet.name} logo`}
+                                      width={32}
+                                      height={32}
+                                      className="w-full h-full object-contain"
+                                      onError={(e) => {
+                                        // Fallback to emoji if image fails to load
+                                        e.currentTarget.style.display = "none";
+                                        const nextElement = e.currentTarget
+                                          .nextElementSibling as HTMLElement;
+                                        if (nextElement)
+                                          nextElement.style.display = "block";
+                                      }}
+                                    />
+                                    <span className="text-2xl hidden">
+                                      {wallet.icon}
+                                    </span>
+                                  </div>
                                   <span className="font-medium text-white group-hover:text-purple-300 transition-colors">
                                     {wallet.name}
                                   </span>

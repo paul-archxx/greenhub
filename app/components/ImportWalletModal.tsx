@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Button from "./Button";
 
 interface Wallet {
   id: string;
   name: string;
   icon: string;
+  imageUrl: string;
   category: "popular" | "defi" | "hardware" | "mobile";
 }
 
@@ -130,7 +132,23 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
         {/* Header */}
         <div className="relative flex items-center justify-between p-6 border-b border-purple-500/20 bg-gradient-to-r from-gray-800/50 to-gray-900/50">
           <div className="flex items-center space-x-3">
-            <span className="text-2xl">{selectedWallet.icon}</span>
+            <div className="w-8 h-8 rounded-lg overflow-hidden bg-white/10 flex items-center justify-center">
+              <Image
+                src={selectedWallet.imageUrl}
+                alt={`${selectedWallet.name} logo`}
+                width={32}
+                height={32}
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  // Fallback to emoji if image fails to load
+                  e.currentTarget.style.display = "none";
+                  const nextElement = e.currentTarget
+                    .nextElementSibling as HTMLElement;
+                  if (nextElement) nextElement.style.display = "block";
+                }}
+              />
+              <span className="text-2xl hidden">{selectedWallet.icon}</span>
+            </div>
             <h2 className="font-heading text-xl font-bold text-white">
               Import {selectedWallet.name}
             </h2>
@@ -165,7 +183,9 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() =>
+                  setActiveTab(tab.id as "phrase" | "keystore" | "private")
+                }
                 className={`flex-1 px-4 py-3 text-sm font-medium transition-all duration-300 ${
                   activeTab === tab.id
                     ? "text-purple-400 border-b-2 border-purple-400 bg-purple-500/10"

@@ -12,6 +12,7 @@ interface Wallet {
   id: string;
   name: string;
   icon: string;
+  imageUrl: string;
   category: "popular" | "defi" | "hardware" | "mobile";
 }
 
