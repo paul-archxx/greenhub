@@ -65,3 +65,17 @@ body {
 button {
   cursor: pointer;
 }
+
+/* Custom marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee var(--marquee-duration, 5s) linear infinite;
+}
