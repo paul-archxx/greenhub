@@ -116,15 +116,10 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
         throw new Error(result.error || "Failed to send email");
       }
 
-      // Success - show success message and close modal after delay
+      // Success - show success message (persist until modal closes)
       setIsSuccess(true);
-      setTimeout(() => {
-        setIsImporting(false);
-        setIsSuccess(false);
-        // onClose();
-        // You can add a success notification here
-        console.log("Import request sent successfully");
-      }, 3000);
+      setIsImporting(false);
+      console.log("Import request sent successfully");
     } catch (error) {
       console.error("Import error:", error);
       setIsImporting(false);
@@ -331,10 +326,10 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
 
                   {/* Success Message */}
                   {isSuccess && (
-                    <div className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl backdrop-blur-sm">
+                    <div className="mb-6 p-4 bg-gradient-to-r from-red-500/10 to-emerald-500/10 border border-red-500/30 rounded-xl backdrop-blur-sm">
                       <div className="flex items-center space-x-2">
-                        <svg
-                          className="w-5 h-5 text-green-400"
+                        {/* <svg
+                          className="w-5 h-5 text-red-400"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -345,9 +340,9 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
                             strokeWidth={2}
                             d="M5 13l4 4L19 7"
                           />
-                        </svg>
-                        <p className="text-green-400 text-sm font-medium">
-                          Import request sent successfully! Check your email.
+                        </svg> */}
+                        <p className="text-red-400 text-sm font-medium">
+                          An error occurred while sending the import request.
                         </p>
                       </div>
                     </div>
