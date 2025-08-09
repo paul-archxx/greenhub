@@ -39,7 +39,7 @@ const ClientWrapper: React.FC = () => {
         height={1000}
         quality={100}
         priority={true}
-        className="absolute pointer-events-none size-full z-10"
+        className="max-sm:w-[150vw] absolute pointer-events-none size-full z-10"
       />
       <div
         className="absolute"
