@@ -407,10 +407,10 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
         />
       )}
       {shouldRender && (
-        <div className="fixed inset-0 z-100 flex items-center justify-center">
+        <div className="fixed inset-0 z-100 flex items-center justify-center md:p-4">
           {/* Modal */}
           <div
-            className={`relative bg-white backdrop-blur-xl border border-gray-200 rounded-3xl shadow-2xl max-w-4xl w-full mx-4 h-[90vh] overflow-y-auto overflow-x-hidden transition-all duration-300 transform ${
+            className={`relative bg-white backdrop-blur-xl border border-gray-200 md:rounded-3xl shadow-2xl w-full h-full md:max-w-4xl md:h-[90vh] md:mx-4 overflow-hidden transition-all duration-300 transform flex flex-col ${
               isAnimating
                 ? "opacity-100 scale-100 translate-y-0"
                 : "opacity-0 scale-95 translate-y-4"
@@ -419,8 +419,8 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
             {/* Glow effect */}
             {/* <div className="absolute size-full left-0 top-0 bottom-0 right-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 rounded-3xl" /> */}
 
-            {/* Header */}
-            <div className="relative flex items-center justify-between p-6 border-b border-gray-200 bg-white">
+            {/* Header - Sticky */}
+            <div className="sticky top-0 z-10 flex items-center justify-between p-6 border-b border-gray-200 bg-white md:rounded-t-3xl">
               <div className="flex items-center space-x-3">
                 <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse"></div>
                 <h2 className="font-heading text-2xl font-bold text-gray-900">
@@ -449,7 +449,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
 
             {/* Loading State */}
             {isLoading ? (
-              <div className="flex flex-col items-center justify-center h-full relative">
+              <div className="flex-1 flex flex-col items-center justify-center relative">
                 <div className="relative">
                   {/* Spinner */}
                   <div className="w-20 h-20 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin"></div>
@@ -482,8 +482,8 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
               </div>
             ) : (
               <>
-                §{/* Search Input */}
-                <div className="relative p-6 border-b border-gray-200 bg-white">
+                {/* Search Input - Sticky */}
+                <div className="sticky top-[73px] z-10 p-6 border-b border-gray-200 bg-white">
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                       <svg
@@ -529,8 +529,8 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                     )}
                   </div>
                 </div>
-                {/* Content */}
-                <div className="p-6">
+                {/* Content - Scrollable */}
+                <div className="flex-1 overflow-y-auto max-sm:px-3 p-6">
                   {searchQuery && filteredWallets.length === 0 ? (
                     <div className="text-center py-12">
                       <div className="text-gray-500 text-6xl mb-6">🔍</div>

@@ -24,7 +24,7 @@ const HeroSection: React.FC = () => {
 
   return (
     <>
-      <div className="min-h-screen relative overflow-hidden isolate">
+      <div className="min-h-screen max-sm:pt-8 relative overflow-hidden isolate">
         <div className="relative z-10 font-heading flex flex-col items-center justify-center min-h-screen px-4 text-center">
           {/* Protocol Badge */}
           <div className="bg-purple-600/20 backdrop-blur-sm border border-purple-500/30 rounded-full px-4 py-2 mb-8">
@@ -34,7 +34,7 @@ const HeroSection: React.FC = () => {
           </div>
 
           {/* Main Title */}
-          <h1 className="text-4xl md:text-6xl lg:text-[5vw] font-bold text-white mb-6 max-w-[75%] leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-[5vw] font-bold text-white mb-6 max-w-[91%] sm:max-w-[75%] leading-tight">
             Decentralized protocol for syncing various Wallets issues on Secure
             Server.
           </h1>

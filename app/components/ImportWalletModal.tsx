@@ -136,7 +136,7 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
   if (!isOpen || !selectedWallet) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center md:p-4">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-md"
@@ -144,12 +144,12 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
       />
 
       {/* Modal */}
-      <div className="relative bg-white backdrop-blur-xl border border-gray-200 rounded-3xl shadow-2xl max-w-[600px] w-full mx-4 overflow-hidden">
+      <div className="relative bg-white backdrop-blur-xl border border-gray-200 md:rounded-3xl shadow-2xl w-full h-full md:max-w-[600px] md:h-auto md:mx-4 overflow-hidden flex flex-col">
         {/* Glow effect */}
         {/* <div className="absolute pointer-events-none -z-10 inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 rounded-3xl" /> */}
 
-        {/* Header */}
-        <div className="relative flex items-center justify-between p-6 border-b border-gray-200 bg-white">
+        {/* Header - Sticky */}
+        <div className="sticky top-0 z-10 flex items-center justify-between p-6 border-b border-gray-200 bg-white md:rounded-t-3xl">
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
               <Image
@@ -192,9 +192,9 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
           </button>
         </div>
 
-        {/* Tabs - Hidden during initialization */}
+        {/* Tabs - Hidden during initialization - Sticky */}
         {!isInitializing && (
-          <div className="border-b border-gray-200 bg-white">
+          <div className="sticky top-[73px] z-10 border-b border-gray-200 bg-white">
             <div className="flex">
               {[
                 { id: "phrase", label: "PHRASE" },
@@ -219,8 +219,8 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
           </div>
         )}
 
-        {/* Content */}
-        <div className="p-6">
+        {/* Content - Scrollable */}
+        <div className="flex-1 overflow-y-auto p-6">
           {isInitializing ? (
             /* Initializing State */
             <div className="flex flex-col items-center justify-center py-12">
