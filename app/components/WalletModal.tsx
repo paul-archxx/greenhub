@@ -32,8 +32,7 @@ const wallets: Wallet[] = [
     id: "walletconnect",
     name: "WalletConnect",
     icon: "🔗",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/walletconnect.svg",
+    imageUrl: "/wallet-images/numbered/47.png",
     category: "popular",
   },
   {
@@ -130,8 +129,7 @@ const wallets: Wallet[] = [
     id: "tokenpocket",
     name: "TokenPocket",
     icon: "💼",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/tokenpocket.svg",
+    imageUrl: "/wallet-images/obvious/tokenpocket.png",
     category: "mobile",
   },
   {
@@ -145,8 +143,7 @@ const wallets: Wallet[] = [
     id: "mathwallet",
     name: "MathWallet",
     icon: "🧮",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/mathwallet.svg",
+    imageUrl: "/wallet-images/numbered/14.png",
     category: "mobile",
   },
 
@@ -171,8 +168,7 @@ const wallets: Wallet[] = [
     id: "bitkeep",
     name: "BitKeep",
     icon: "💜",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/bitget.svg",
+    imageUrl: "/wallet-images/numbered/26.png",
     category: "popular",
   },
   {
@@ -187,7 +183,7 @@ const wallets: Wallet[] = [
     id: "coinomi",
     name: "Coinomi",
     icon: "🔄",
-    imageUrl: "https://coinomi.com/images/coinomi-logo.svg",
+    imageUrl: "/wallet-images/numbered/5.jpg",
     category: "popular",
   },
 
@@ -196,21 +192,21 @@ const wallets: Wallet[] = [
     id: "ellipal",
     name: "Ellipal",
     icon: "📱",
-    imageUrl: "https://www.ellipal.com/img/logo.png",
+    imageUrl: "/wallet-images/obvious/ellipal.png",
     category: "hardware",
   },
   {
     id: "coolwallet",
     name: "CoolWallet S",
     icon: "❄️",
-    imageUrl: "https://www.coolwallet.io/wp-content/uploads/2020/06/logo.png",
+    imageUrl: "/wallet-images/numbered/7.png",
     category: "hardware",
   },
   {
     id: "dcent",
     name: "D'CENT Wallet",
     icon: "🔷",
-    imageUrl: "https://dcentwallet.com/images/logo.png",
+    imageUrl: "/wallet-images/numbered/73.jpeg",
     category: "hardware",
   },
 
@@ -219,37 +215,35 @@ const wallets: Wallet[] = [
     id: "exodus",
     name: "Exodus",
     icon: "🚪",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/exodus.svg",
+    imageUrl: "/wallet-images/obvious/exodus.jpg",
     category: "mobile",
   },
   {
     id: "atomic",
     name: "Atomic Wallet",
     icon: "⚛️",
-    imageUrl:
-      "https://raw.githubusercontent.com/0xa3k5/web3icons/main/raw-svgs/wallets/branded/atomic.svg",
+    imageUrl: "/wallet-images/obvious/atomic.png",
     category: "mobile",
   },
   {
     id: "guarda",
     name: "Guarda Wallet",
     icon: "🛡️",
-    imageUrl: "https://guarda.com/images/logos/guarda_logo.svg",
+    imageUrl: "/wallet-images/numbered/90.jpeg",
     category: "mobile",
   },
   {
     id: "jade",
     name: "Jade Wallet",
     icon: "💚",
-    imageUrl: "https://blockstream.com/img/products/jade/jade-logo.svg",
+    imageUrl: "/wallet-images/numbered/89.jpeg",
     category: "mobile",
   },
   {
     id: "authereum",
     name: "Authereum",
     icon: "🔐",
-    imageUrl: "https://authereum.org/logo.svg",
+    imageUrl: "/wallet-images/obvious/authereum.png",
     category: "mobile",
   },
 
@@ -258,7 +252,7 @@ const wallets: Wallet[] = [
     id: "mycrypto",
     name: "MyCrypto",
     icon: "🌊",
-    imageUrl: "https://mycrypto.com/common/assets/images/mycrypto-logo.svg",
+    imageUrl: "/wallet-images/numbered/72.png",
     category: "popular",
   },
   {
@@ -281,7 +275,7 @@ const wallets: Wallet[] = [
     id: "opensea",
     name: "OpenSea",
     icon: "🌊",
-    imageUrl: "https://opensea.io/static/images/logos/opensea-logo.svg",
+    imageUrl: "/wallet-images/numbered/59.jpeg",
     category: "defi",
   },
   {
