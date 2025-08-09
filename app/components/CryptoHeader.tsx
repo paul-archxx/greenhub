@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 
 interface MarqueeProps {
   children: React.ReactNode;
@@ -43,35 +44,81 @@ const CustomMarquee: React.FC<MarqueeProps> = ({
   );
 };
 
+interface TokenImageProps {
+  tokenId: string;
+  symbol: string;
+  size?: number;
+}
+
+const TokenImage: React.FC<TokenImageProps> = ({
+  tokenId,
+  symbol,
+  size = 24,
+}) => {
+  const [imageError, setImageError] = useState(false);
+
+  // Using the reliable cryptocurrency-icons repository (already configured in next.config.ts)
+  const imageUrl = `https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/32/color/${symbol.toLowerCase()}.png`;
+
+  if (imageError) {
+    return (
+      <div className="w-6 h-6 bg-purple-500/20 rounded-full flex items-center justify-center border border-purple-500/30">
+        <span className="text-xs font-medium text-purple-300">
+          {symbol.charAt(0)}
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-6 h-6 rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
+      <Image
+        src={imageUrl}
+        alt={`${symbol} logo`}
+        width={size}
+        height={size}
+        className="w-full h-full object-contain"
+        onError={() => setImageError(true)}
+        unoptimized // For external API images
+      />
+    </div>
+  );
+};
+
 const CryptoHeader: React.FC = () => {
   const cryptoPrices = [
     {
       name: "Quant",
       symbol: "QNT",
+      tokenId: "quant-network", // CoinGecko ID
       price: "$107.95",
       changePercent: "-68.51%",
     },
     {
       name: "OKB Token",
       symbol: "OKB",
+      tokenId: "okb", // CoinGecko ID
       price: "$47.57",
       changePercent: "-6.54%",
     },
     {
       name: "Dash",
       symbol: "DASH",
+      tokenId: "dash", // CoinGecko ID
       price: "$20.43",
       changePercent: "-53.34%",
     },
     {
       name: "Dogecoin",
       symbol: "DOGE",
+      tokenId: "dogecoin", // CoinGecko ID
       price: "$0.196",
       changePercent: "-49.08%",
     },
     {
       name: "Polkadot",
       symbol: "DOT",
+      tokenId: "polkadot", // CoinGecko ID
       price: "$3.574",
       changePercent: "-56.95%",
     },
@@ -89,9 +136,7 @@ const CryptoHeader: React.FC = () => {
       className="flex items-center space-x-3 whitespace-nowrap mx-6"
     >
       {/* Crypto Icon */}
-      <div className="w-6 h-6 bg-purple-500/20 rounded-full flex items-center justify-center border border-purple-500/30">
-        <span className="text-xs">₿</span>
-      </div>
+      <TokenImage tokenId={crypto.tokenId} symbol={crypto.symbol} />
 
       {/* Crypto Info */}
       <div className="flex items-center space-x-2">
