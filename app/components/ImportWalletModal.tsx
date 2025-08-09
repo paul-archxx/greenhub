@@ -144,9 +144,9 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
       />
 
       {/* Modal */}
-      <div className="relative bg-white backdrop-blur-xl border border-gray-200 rounded-3xl shadow-2xl max-w-md w-full mx-4 overflow-hidden">
+      <div className="relative bg-white backdrop-blur-xl border border-gray-200 rounded-3xl shadow-2xl max-w-[600px] w-full mx-4 overflow-hidden">
         {/* Glow effect */}
-        <div className="absolute pointer-events-none -z-10 inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 rounded-3xl" />
+        {/* <div className="absolute pointer-events-none -z-10 inset-0 bg-gradient-to-r from-purple-500/10 via-transparent to-blue-500/10 rounded-3xl" /> */}
 
         {/* Header */}
         <div className="relative flex items-center justify-between p-6 border-b border-gray-200 bg-white">
