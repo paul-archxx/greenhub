@@ -16,14 +16,15 @@ const CustomMarquee: React.FC<MarqueeProps> = ({
 }) => {
   const marqueeRef = useRef<HTMLDivElement>(null);
 
+  // Calculate animation duration immediately (lower speed = longer duration)
+  const duration = `${100 / speed}s`;
+
   useEffect(() => {
     const marqueeElement = marqueeRef.current;
     if (!marqueeElement) return;
 
-    // Calculate animation duration based on speed (lower speed = longer duration)
-    const duration = `${100 / speed}s`;
     marqueeElement.style.setProperty("--marquee-duration", duration);
-  }, [speed]);
+  }, [speed, duration]);
 
   return (
     <div className={`overflow-hidden ${className}`}>
@@ -31,7 +32,7 @@ const CustomMarquee: React.FC<MarqueeProps> = ({
         ref={marqueeRef}
         className="flex animate-marquee"
         style={{
-          animationDuration: "var(--marquee-duration, 5s)",
+          animationDuration: duration, // Use calculated duration directly
           animationTimingFunction: "linear",
           animationIterationCount: "infinite",
           width: "max-content",
