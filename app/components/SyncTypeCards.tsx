@@ -145,7 +145,7 @@ const SyncTypeCards: React.FC = () => {
           <motion.div
             key={syncType.id}
             onClick={() => handleCardClick(syncType.id)}
-            className="group relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105"
+            className="group relative overflow-hidden cursor-pointer hover:scale-105"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
