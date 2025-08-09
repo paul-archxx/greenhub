@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import Button from "./Button";
 import { useAppStore } from "../store/useAppStore";
 
@@ -77,29 +78,68 @@ const ServiceDetails: React.FC = () => {
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 py-20 relative">
+    <motion.div
+      className="w-full max-w-7xl mx-auto px-6 py-20 relative"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8 }}
+    >
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5 rounded-3xl" />
 
       <div className="relative z-10">
         {/* Header Section */}
-        <div className="text-center mb-20">
-          <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+        <motion.div
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.h2
+            className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             Why Choose GreenHub?
-          </h2>
-          <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+          </motion.h2>
+          <motion.p
+            className="text-gray-400 text-lg max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             Experience the next generation of decentralized finance with our
             comprehensive suite of tools designed for security, speed, and
             simplicity.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
           {features.map((feature, index) => (
-            <div
+            <motion.div
               key={index}
               className="group relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.2,
+                ease: "easeOut",
+              }}
+              whileHover={{ scale: 1.05 }}
             >
               <div className="relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8 h-full hover:border-purple-500/40 hover:bg-gradient-to-br hover:from-purple-500/10 hover:to-blue-500/10 transition-all duration-300">
                 {/* Glow effect */}
@@ -138,109 +178,192 @@ const ServiceDetails: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Statistics Section */}
-        <div className="relative bg-gradient-to-r from-gray-800/30 to-gray-900/30 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8 mb-20">
+        <motion.div
+          className="relative bg-gradient-to-r from-gray-800/30 to-gray-900/30 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8 mb-20"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
           {/* Glow effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-transparent to-blue-500/5 rounded-2xl" />
 
           <div className="relative z-10">
-            <h3 className="font-heading text-3xl font-bold text-white text-center mb-8">
+            <motion.h3
+              className="font-heading text-3xl font-bold text-white text-center mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               Trusted by Thousands
-            </h3>
+            </motion.h3>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <motion.div
+              className="grid grid-cols-2 md:grid-cols-4 gap-8"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
               {statistics.map((stat, index) => (
-                <div key={index} className="text-center group">
+                <motion.div
+                  key={index}
+                  className="text-center group"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.6 + index * 0.1,
+                    ease: "easeOut",
+                  }}
+                >
                   <div className="text-4xl md:text-5xl font-bold text-white mb-2 group-hover:text-purple-300 transition-colors">
                     {stat.number}
                   </div>
                   <div className="text-gray-400 text-sm font-medium group-hover:text-gray-300 transition-colors">
                     {stat.label}
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
         {/* How It Works Section */}
-        <div className="text-center mb-16">
-          <h3 className="font-heading text-3xl md:text-4xl font-bold text-white mb-8">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.h3
+            className="font-heading text-3xl md:text-4xl font-bold text-white mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             How It Works
-          </h3>
+          </motion.h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="group">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-2xl flex items-center justify-center border border-purple-500/30 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-2xl">🔗</span>
-              </div>
-              <h4 className="font-heading text-xl font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">
-                Connect Wallet
-              </h4>
-              <p className="text-gray-400 group-hover:text-gray-300 transition-colors">
-                Securely connect your existing wallet or create a new one with
-                our advanced security features.
-              </p>
-            </div>
-
-            <div className="group">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-2xl flex items-center justify-center border border-purple-500/30 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-2xl">⚙️</span>
-              </div>
-              <h4 className="font-heading text-xl font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">
-                Select Service
-              </h4>
-              <p className="text-gray-400 group-hover:text-gray-300 transition-colors">
-                Choose from our comprehensive range of DeFi services tailored to
-                your specific needs.
-              </p>
-            </div>
-
-            <div className="group">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-2xl flex items-center justify-center border border-purple-500/30 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-2xl">🚀</span>
-              </div>
-              <h4 className="font-heading text-xl font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">
-                Execute & Monitor
-              </h4>
-              <p className="text-gray-400 group-hover:text-gray-300 transition-colors">
-                Execute transactions with confidence and monitor your portfolio
-                in real-time.
-              </p>
-            </div>
-          </div>
-        </div>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            {[
+              {
+                icon: "🔗",
+                title: "Connect Wallet",
+                description:
+                  "Securely connect your existing wallet or create a new one with our advanced security features.",
+              },
+              {
+                icon: "⚙️",
+                title: "Select Service",
+                description:
+                  "Choose from our comprehensive range of DeFi services tailored to your specific needs.",
+              },
+              {
+                icon: "🚀",
+                title: "Execute & Monitor",
+                description:
+                  "Execute transactions with confidence and monitor your portfolio in real-time.",
+              },
+            ].map((step, index) => (
+              <motion.div
+                key={index}
+                className="group"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.6 + index * 0.2,
+                  ease: "easeOut",
+                }}
+              >
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-2xl flex items-center justify-center border border-purple-500/30 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-2xl">{step.icon}</span>
+                </div>
+                <h4 className="font-heading text-xl font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">
+                  {step.title}
+                </h4>
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors">
+                  {step.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
 
         {/* CTA Section */}
-        <div className="text-center">
-          <div className="relative bg-gradient-to-r from-purple-500/10 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8">
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.div
+            className="relative bg-gradient-to-r from-purple-500/10 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             {/* Glow effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-transparent to-blue-500/5 rounded-2xl" />
 
             <div className="relative z-10">
-              <h3 className="font-heading text-3xl font-bold text-white mb-4">
+              <motion.h3
+                className="font-heading text-3xl font-bold text-white mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
                 Ready to Get Started?
-              </h3>
-              <p className="text-gray-400 text-lg mb-6 max-w-2xl mx-auto">
+              </motion.h3>
+              <motion.p
+                className="text-gray-400 text-lg mb-6 max-w-2xl mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
                 Join thousands of users who trust GreenHub for their DeFi
                 operations. Start your journey today with our secure and
                 user-friendly platform.
-              </p>
-              <Button
-                onClick={handleConnectWallet}
-                className="mx-auto uppercase"
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.8 }}
               >
-                Connect Wallet
-              </Button>
+                <Button
+                  onClick={handleConnectWallet}
+                  className="mx-auto uppercase"
+                >
+                  Connect Wallet
+                </Button>
+              </motion.div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

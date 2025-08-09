@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import { useAppStore } from "../store/useAppStore";
 import Button from "./Button";
 
@@ -96,25 +97,65 @@ const SyncTypeCards: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 relative">
+    <motion.div
+      className="w-full max-w-7xl mx-auto px-6 relative"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6 }}
+    >
       {/* Header Section */}
-      <div className="text-center mb-16">
-        <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+      <motion.div
+        className="text-center mb-16"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.8 }}
+      >
+        <motion.h2
+          className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           Select Sync Type
-        </h2>
-        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+        </motion.h2>
+        <motion.p
+          className="text-gray-400 text-lg max-w-2xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
           Choose the type of issue you&apos;re experiencing to get the right
           assistance
-        </p>
-      </div>
+        </motion.p>
+      </motion.div>
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {syncTypes.map((syncType) => (
-          <div
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
+        {syncTypes.map((syncType, index) => (
+          <motion.div
             key={syncType.id}
             onClick={() => handleCardClick(syncType.id)}
             className="group relative overflow-hidden cursor-pointer transition-all duration-300 hover:scale-105"
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.5,
+              delay: index * 0.1,
+              ease: "easeOut",
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             {/* Card Background */}
             <div className="relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6 h-full hover:border-purple-500/40 hover:bg-gradient-to-br hover:from-purple-500/10 hover:to-blue-500/10 transition-all duration-300">
@@ -156,17 +197,23 @@ const SyncTypeCards: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {/* Bottom CTA */}
-      <div className="text-center mt-12">
+      <motion.div
+        className="text-center mt-12"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.5 }}
+      >
         <Button onClick={() => handleCardClick()} className="mx-auto uppercase">
           Connect Wallet
         </Button>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
