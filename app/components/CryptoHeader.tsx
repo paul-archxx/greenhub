@@ -92,7 +92,7 @@ const CryptoHeader: React.FC = () => {
       symbol: "QNT",
       tokenId: "quant-network", // CoinGecko ID
       price: "$107.95",
-      changePercent: "-68.51%",
+      changePercent: "+12.34%",
     },
     {
       name: "OKB Token",
@@ -106,21 +106,21 @@ const CryptoHeader: React.FC = () => {
       symbol: "DASH",
       tokenId: "dash", // CoinGecko ID
       price: "$20.43",
-      changePercent: "-53.34%",
+      changePercent: "+8.21%",
     },
     {
       name: "Dogecoin",
       symbol: "DOGE",
       tokenId: "dogecoin", // CoinGecko ID
       price: "$0.196",
-      changePercent: "-49.08%",
+      changePercent: "-3.08%",
     },
     {
       name: "Polkadot",
       symbol: "DOT",
       tokenId: "polkadot", // CoinGecko ID
       price: "$3.574",
-      changePercent: "-56.95%",
+      changePercent: "+15.67%",
     },
   ];
 
