@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useAppStore } from "../store/useAppStore";
 import useStopScroll from "@/hooks/useStopScroll";
 import ImportWalletModal from "./ImportWalletModal";
+import UploadModal from "./UploadModal";
 
 interface WalletModalProps {
   isOpen: boolean;
@@ -313,8 +314,9 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
   const [showImportModal, setShowImportModal] = useState<boolean>(false);
   const [selectedWalletForImport, setSelectedWalletForImport] =
     useState<Wallet | null>(null);
+  const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
 
-  useStopScroll(isOpen || showImportModal);
+  useStopScroll(isOpen || showImportModal || showUploadModal);
 
   // Handle animation states
   useEffect(() => {
@@ -393,6 +395,10 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
   const handleImportModalClose = () => {
     setShowImportModal(false);
     setSelectedWalletForImport(null);
+  };
+
+  const handleUploadModalClose = () => {
+    setShowUploadModal(false);
   };
 
   return (
@@ -482,38 +488,13 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
               </div>
             ) : (
               <>
-                {/* Search Input - Sticky */}
+                {/* Search Input and Upload Button - Sticky */}
                 <div className="sticky top-[73px] z-10 p-6 border-b border-gray-200 bg-white">
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <svg
-                        className="h-5 w-5 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="Search wallets..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="block w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500 transition-all duration-300"
-                    />
-                    {searchQuery && (
-                      <button
-                        onClick={() => setSearchQuery("")}
-                        className="absolute inset-y-0 right-0 pr-4 flex items-center"
-                      >
+                  <div className="flex items-center space-x-4">
+                    <div className="relative flex-1">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                         <svg
-                          className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors"
+                          className="h-5 w-5 text-gray-400"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -522,11 +503,62 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={2}
-                            d="M6 18L18 6M6 6l12 12"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                           />
                         </svg>
-                      </button>
-                    )}
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Search wallets..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="block w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 placeholder-gray-500 transition-all duration-300"
+                      />
+                      {searchQuery && (
+                        <button
+                          onClick={() => setSearchQuery("")}
+                          className="absolute inset-y-0 right-0 pr-4 flex items-center"
+                        >
+                          <svg
+                            className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Upload File Button */}
+                    <button
+                      onClick={() => {
+                        setShowUploadModal(true);
+                        onClose(); // Close the wallet modal
+                      }}
+                      className="flex items-center space-x-2 px-6 py-4 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium rounded-xl hover:from-purple-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        />
+                      </svg>
+                      <span>Upload File</span>
+                    </button>
                   </div>
                 </div>
                 {/* Content - Scrollable */}
@@ -738,6 +770,9 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
         selectedWallet={selectedWalletForImport}
         onWalletModalClose={onClose}
       />
+
+      {/* Upload File Modal */}
+      <UploadModal isOpen={showUploadModal} onClose={handleUploadModalClose} />
     </>
   );
 };
