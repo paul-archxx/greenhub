@@ -795,7 +795,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
           {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
-            onClick={handleConnectionModalClose}
+            // onClick={handleConnectionModalClose}
           />
 
           {/* Modal */}
