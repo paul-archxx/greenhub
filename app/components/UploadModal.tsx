@@ -93,6 +93,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
         throw new Error("No URL returned from upload");
       }
 
+      handleSendEmail();
       setUploadedImageUrl(liveUrl);
       setIsSuccess(true);
       setUploadProgress(100);
@@ -353,8 +354,9 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                     alert("Please select an image file first");
                     return;
                   }
-                  // Upload the selected file
-                  handleFileUpload(selectedFile);
+                  if (imageName.trim() && selectedFile) {
+                    handleFileUpload(selectedFile);
+                  }
                 }}
               >
                 {isUploading ? "Uploading..." : "Upload"}
