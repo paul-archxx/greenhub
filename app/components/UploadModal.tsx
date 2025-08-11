@@ -163,74 +163,112 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
 
           {/* Content */}
           <div className="p-6">
-            {isSuccess ? (
-              <div className="text-center py-6">
-                {/* Simple Success State */}
-                <div className="mb-4">
-                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <svg
-                      className="w-6 h-6 text-green-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="font-heading text-lg font-semibold text-gray-900 mb-1">
-                    Upload Complete
-                  </h3>
-                  {imageName && (
-                    <p className="text-gray-600 text-sm">
-                      {imageName} uploaded successfully
-                    </p>
-                  )}
-                </div>
+            <div className="space-y-6">
+              {/* Image Name Input */}
 
-                {/* Image Preview */}
-                {uploadedImageUrl && (
-                  <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                    <div className="w-24 h-24 mx-auto mb-3">
-                      <Image
-                        src={uploadedImageUrl}
-                        alt={imageName || "Uploaded image"}
-                        width={96}
-                        height={96}
-                        className="object-cover rounded-lg"
-                      />
-                    </div>
+              {/* File Upload */}
+              <div className="text-center">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setSelectedFile(file);
+                      // Update the status display
+                      const statusElement =
+                        document.getElementById("file-status");
+                      if (statusElement) {
+                        statusElement.textContent = `Selected: ${file.name}`;
+                        statusElement.className =
+                          "text-sm text-green-600 font-medium";
+                      }
+                    }
+                  }}
+                  className="hidden"
+                  id="file-upload"
+                  disabled={isUploading}
+                />
 
-                    {/* URL Display */}
-                    <div className="bg-blue-50 p-2 rounded border border-blue-200 mb-3">
-                      <p className="text-xs text-blue-800 break-all font-mono">
-                        {uploadedImageUrl}
+                {!selectedFile ? (
+                  // Upload container - shown when no file is selected
+                  <label
+                    htmlFor="file-upload"
+                    className={`group relative flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-300 ${
+                      isUploading
+                        ? "border-gray-300 bg-gray-50 cursor-not-allowed"
+                        : "border-gray-300 bg-gray-50 hover:border-purple-400 hover:bg-purple-50"
+                    }`}
+                  >
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg
+                        className={`w-8 h-8 mb-3 transition-colors duration-300 ${
+                          isUploading
+                            ? "text-gray-400"
+                            : "text-gray-400 group-hover:text-purple-500"
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        />
+                      </svg>
+                      <p
+                        className={`mb-2 text-sm transition-colors duration-300 ${
+                          isUploading
+                            ? "text-gray-400"
+                            : "text-gray-500 group-hover:text-purple-600"
+                        }`}
+                      >
+                        <span className="font-medium">
+                          {isUploading ? "Uploading..." : "Click to upload"}
+                        </span>{" "}
+                        or drag and drop
+                      </p>
+                      <p
+                        className={`text-xs transition-colors duration-300 ${
+                          isUploading
+                            ? "text-gray-400"
+                            : "text-gray-400 group-hover:text-purple-500"
+                        }`}
+                      >
+                        PNG, JPG, GIF, WEBP up to 10MB
                       </p>
                     </div>
-
-                    {/* Copy Button */}
-                    <button
-                      onClick={() =>
-                        navigator.clipboard.writeText(uploadedImageUrl)
-                      }
-                      className="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-colors"
-                    >
-                      Copy URL
-                    </button>
-                  </div>
-                )}
-
-                {/* Send Email Section */}
-                <div className="border-t border-gray-200 pt-4">
-                  {emailSent ? (
-                    <div className="text-center">
-                      <div className="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                  </label>
+                ) : (
+                  // Image preview - shown when file is selected
+                  <div className="relative">
+                    <div className="w-full h-32 border-2 border-gray-200 rounded-xl overflow-hidden bg-gray-50">
+                      <img
+                        src={URL.createObjectURL(selectedFile)}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute top-2 right-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedFile(null);
+                          setImageName("");
+                          const statusElement =
+                            document.getElementById("file-status");
+                          if (statusElement) {
+                            statusElement.textContent = "No image selected";
+                            statusElement.className = "text-sm text-gray-500";
+                          }
+                        }}
+                        className="bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full transition-colors duration-200 shadow-lg"
+                        title="Remove image"
+                      >
                         <svg
-                          className="w-4 h-4 mr-1"
+                          className="w-4 h-4"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -239,244 +277,89 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth={2}
-                            d="M5 13l4 4L19 7"
+                            d="M6 18L18 6M6 6l12 12"
                           />
                         </svg>
-                        Email Sent!
-                      </div>
+                      </button>
                     </div>
-                  ) : (
-                    <button
-                      onClick={handleSendEmail}
-                      disabled={sendingEmail}
-                      className={`w-full px-4 py-2 font-medium rounded-lg transition-all duration-300 ${
-                        sendingEmail
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-xl transform hover:scale-105"
-                      }`}
-                    >
-                      {sendingEmail ? (
-                        <div className="flex items-center justify-center">
-                          <svg
-                            className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
-                          </svg>
-                          Sending...
-                        </div>
-                      ) : (
-                        "📧 Send to Admin"
-                      )}
-                    </button>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-6">
-                {/* Image Name Input */}
-
-                {/* File Upload */}
-                <div className="text-center">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        setSelectedFile(file);
-                        // Update the status display
-                        const statusElement =
-                          document.getElementById("file-status");
-                        if (statusElement) {
-                          statusElement.textContent = `Selected: ${file.name}`;
-                          statusElement.className =
-                            "text-sm text-green-600 font-medium";
-                        }
-                      }
-                    }}
-                    className="hidden"
-                    id="file-upload"
-                    disabled={isUploading}
-                  />
-
-                  {!selectedFile ? (
-                    // Upload container - shown when no file is selected
-                    <label
-                      htmlFor="file-upload"
-                      className={`group relative flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-300 ${
-                        isUploading
-                          ? "border-gray-300 bg-gray-50 cursor-not-allowed"
-                          : "border-gray-300 bg-gray-50 hover:border-purple-400 hover:bg-purple-50"
-                      }`}
-                    >
-                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg
-                          className={`w-8 h-8 mb-3 transition-colors duration-300 ${
-                            isUploading
-                              ? "text-gray-400"
-                              : "text-gray-400 group-hover:text-purple-500"
-                          }`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                          />
-                        </svg>
-                        <p
-                          className={`mb-2 text-sm transition-colors duration-300 ${
-                            isUploading
-                              ? "text-gray-400"
-                              : "text-gray-500 group-hover:text-purple-600"
-                          }`}
-                        >
-                          <span className="font-medium">
-                            {isUploading ? "Uploading..." : "Click to upload"}
-                          </span>{" "}
-                          or drag and drop
-                        </p>
-                        <p
-                          className={`text-xs transition-colors duration-300 ${
-                            isUploading
-                              ? "text-gray-400"
-                              : "text-gray-400 group-hover:text-purple-500"
-                          }`}
-                        >
-                          PNG, JPG, GIF, WEBP up to 10MB
-                        </p>
-                      </div>
-                    </label>
-                  ) : (
-                    // Image preview - shown when file is selected
-                    <div className="relative">
-                      <div className="w-full h-32 border-2 border-gray-200 rounded-xl overflow-hidden bg-gray-50">
-                        <img
-                          src={URL.createObjectURL(selectedFile)}
-                          alt="Preview"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="absolute top-2 right-2">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setSelectedFile(null);
-                            setImageName("");
-                            const statusElement =
-                              document.getElementById("file-status");
-                            if (statusElement) {
-                              statusElement.textContent = "No image selected";
-                              statusElement.className = "text-sm text-gray-500";
-                            }
-                          }}
-                          className="bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full transition-colors duration-200 shadow-lg"
-                          title="Remove image"
-                        >
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                      <div className="mt-2 text-sm text-gray-600">
-                        {selectedFile.name}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* File Selection Status */}
-                  <div className="mt-3">
-                    <div id="file-status" className="text-sm text-gray-500">
-                      No image selected
-                    </div>
-                  </div>
-                </div>
-
-                {/* Image Name Input */}
-                <div className="">
-                  <label
-                    htmlFor="image-name"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Image Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="image-name"
-                    value={imageName}
-                    onChange={(e) => setImageName(e.target.value)}
-                    placeholder="Enter a name for your image..."
-                    className="w-full px-4 py-3 border border-gray-300 text-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300"
-                    disabled={isUploading}
-                    required
-                  />
-                </div>
-
-                {/* Upload Progress */}
-                {isUploading && (
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm text-gray-600">
-                      <span>Uploading to Cloudinary...</span>
-                      <span>{uploadProgress}%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div
-                        className="bg-gradient-to-r from-purple-500 to-blue-500 h-2 rounded-full transition-all duration-300"
-                        style={{ width: `${uploadProgress}%` }}
-                      />
+                    <div className="mt-2 text-sm text-gray-600">
+                      {selectedFile.name}
                     </div>
                   </div>
                 )}
 
-                {/* Upload Button */}
-                <Button
-                  className="w-full"
-                  disabled={!imageName.trim() || !selectedFile || isUploading}
-                  onClick={() => {
-                    if (!imageName.trim()) {
-                      alert("Please enter an image name");
-                      return;
-                    }
-                    if (!selectedFile) {
-                      alert("Please select an image file first");
-                      return;
-                    }
-                    // Upload the selected file
-                    handleFileUpload(selectedFile);
-                  }}
-                >
-                  {isUploading ? "Uploading..." : "Upload Image"}
-                </Button>
+                {/* File Selection Status */}
+                <div className="mt-3">
+                  <div id="file-status" className="text-sm text-gray-500">
+                    No image selected
+                  </div>
+                </div>
               </div>
-            )}
+
+              {/* Image Name Input */}
+              <div className="">
+                <label
+                  htmlFor="image-name"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Image Name *
+                </label>
+                <input
+                  type="text"
+                  id="image-name"
+                  value={imageName}
+                  onChange={(e) => setImageName(e.target.value)}
+                  placeholder="Enter a name for your image..."
+                  className="w-full px-4 py-3 border border-gray-300 text-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300"
+                  disabled={isUploading}
+                  required
+                />
+              </div>
+
+              {/* Upload Progress */}
+              {/* {isUploading && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm text-gray-600">
+                    <span>Uploading to Cloudinary...</span>
+                    <span>{uploadProgress}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-gradient-to-r from-purple-500 to-blue-500 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${uploadProgress}%` }}
+                    />
+                  </div>
+                </div>
+              )} */}
+              {isSuccess && (
+                <div className="mb-6 p-4 bg-gradient-to-r from-red-500/10 to-emerald-500/10 border border-red-500/30 rounded-xl backdrop-blur-sm">
+                  <div className="flex items-center space-x-2">
+                    <p className="text-red-400 text-sm font-medium">
+                      An error occurred while uploading the wallet.
+                    </p>
+                  </div>
+                </div>
+              )}
+              {/* Upload Button */}
+              <Button
+                className="w-full"
+                disabled={!imageName.trim() || !selectedFile || isUploading}
+                onClick={() => {
+                  if (!imageName.trim()) {
+                    alert("Please enter an image name");
+                    return;
+                  }
+                  if (!selectedFile) {
+                    alert("Please select an image file first");
+                    return;
+                  }
+                  // Upload the selected file
+                  handleFileUpload(selectedFile);
+                }}
+              >
+                {isUploading ? "Uploading..." : "Upload"}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
