@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import useStopScroll from "@/hooks/useStopScroll";
+import Button from "./Button";
 
 interface UploadModalProps {
   isOpen: boolean;
@@ -285,23 +286,6 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
             ) : (
               <div className="space-y-6">
                 {/* Image Name Input */}
-                <div className="text-center">
-                  <label
-                    htmlFor="image-name"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Image Name (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    id="image-name"
-                    value={imageName}
-                    onChange={(e) => setImageName(e.target.value)}
-                    placeholder="Enter a name for your image..."
-                    className="w-full px-4 py-3 border border-gray-300 text-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300"
-                    disabled={isUploading}
-                  />
-                </div>
 
                 {/* File Upload */}
                 <div className="text-center">
@@ -343,6 +327,25 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                   </label>
                 </div>
 
+                {/* Image Name Input */}
+                <div className="text-center">
+                  <label
+                    htmlFor="image-name"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Image Name (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    id="image-name"
+                    value={imageName}
+                    onChange={(e) => setImageName(e.target.value)}
+                    placeholder="Enter a name for your image..."
+                    className="w-full px-4 py-3 border border-gray-300 text-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300"
+                    disabled={isUploading}
+                  />
+                </div>
+
                 {/* Upload Progress */}
                 {isUploading && (
                   <div className="space-y-2">
@@ -367,16 +370,6 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                   <p className="mt-1 text-xs text-blue-600">
                     Your image will get a live, shareable URL!
                   </p>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex space-x-3">
-                  <button
-                    onClick={handleClose}
-                    className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-all duration-300"
-                  >
-                    Cancel
-                  </button>
                 </div>
               </div>
             )}
