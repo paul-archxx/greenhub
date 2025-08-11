@@ -135,7 +135,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
 
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center lg:p-4">
-        <div className="bg-white lg:rounded-3xl shadow-2xl w-full lg:max-w-md max-lg:h-[100vh] max-lg:w-screen lg:max-h-[90vh] overflow-hidden">
+        <div className="bg-white lg:rounded-3xl shadow-2xl w-full lg:max-w-md max-lg:h-[100dvh] max-lg:w-screen lg:max-h-[90vh] overflow-hidden">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div className="flex items-center space-x-3">
