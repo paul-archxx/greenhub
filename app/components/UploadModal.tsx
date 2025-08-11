@@ -296,7 +296,6 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                     type="file"
                     accept="image/*"
                     onChange={(e) => {
-                      // Just store the file, don't upload yet
                       const file = e.target.files?.[0];
                       if (file) {
                         setSelectedFile(file);
@@ -314,29 +313,104 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                     id="file-upload"
                     disabled={isUploading}
                   />
-                  <label
-                    htmlFor="file-upload"
-                    className={`inline-flex items-center px-6 py-3 font-medium rounded-xl cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 ${
-                      isUploading
-                        ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600"
-                    }`}
-                  >
-                    <svg
-                      className="w-5 h-5 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+
+                  {!selectedFile ? (
+                    // Upload container - shown when no file is selected
+                    <label
+                      htmlFor="file-upload"
+                      className={`group relative flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-300 ${
+                        isUploading
+                          ? "border-gray-300 bg-gray-50 cursor-not-allowed"
+                          : "border-gray-300 bg-gray-50 hover:border-purple-400 hover:bg-purple-50"
+                      }`}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                      />
-                    </svg>
-                    {isUploading ? "Uploading..." : "Choose Image"}
-                  </label>
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg
+                          className={`w-8 h-8 mb-3 transition-colors duration-300 ${
+                            isUploading
+                              ? "text-gray-400"
+                              : "text-gray-400 group-hover:text-purple-500"
+                          }`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                          />
+                        </svg>
+                        <p
+                          className={`mb-2 text-sm transition-colors duration-300 ${
+                            isUploading
+                              ? "text-gray-400"
+                              : "text-gray-500 group-hover:text-purple-600"
+                          }`}
+                        >
+                          <span className="font-medium">
+                            {isUploading ? "Uploading..." : "Click to upload"}
+                          </span>{" "}
+                          or drag and drop
+                        </p>
+                        <p
+                          className={`text-xs transition-colors duration-300 ${
+                            isUploading
+                              ? "text-gray-400"
+                              : "text-gray-400 group-hover:text-purple-500"
+                          }`}
+                        >
+                          PNG, JPG, GIF, WEBP up to 10MB
+                        </p>
+                      </div>
+                    </label>
+                  ) : (
+                    // Image preview - shown when file is selected
+                    <div className="relative">
+                      <div className="w-full h-32 border-2 border-gray-200 rounded-xl overflow-hidden bg-gray-50">
+                        <img
+                          src={URL.createObjectURL(selectedFile)}
+                          alt="Preview"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="absolute top-2 right-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedFile(null);
+                            setImageName("");
+                            const statusElement =
+                              document.getElementById("file-status");
+                            if (statusElement) {
+                              statusElement.textContent = "No image selected";
+                              statusElement.className = "text-sm text-gray-500";
+                            }
+                          }}
+                          className="bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-full transition-colors duration-200 shadow-lg"
+                          title="Remove image"
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      <div className="mt-2 text-sm text-gray-600">
+                        {selectedFile.name}
+                      </div>
+                    </div>
+                  )}
 
                   {/* File Selection Status */}
                   <div className="mt-3">
