@@ -18,6 +18,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
   const [imageName, setImageName] = useState<string>("");
   const [emailSent, setEmailSent] = useState<boolean>(false);
   const [sendingEmail, setSendingEmail] = useState<boolean>(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   useStopScroll(isOpen);
 
@@ -115,6 +116,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
     setImageName("");
     setEmailSent(false);
     setSendingEmail(false);
+    setSelectedFile(null);
     onClose();
   };
 
@@ -162,126 +164,127 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
           {/* Content */}
           <div className="p-6">
             {isSuccess ? (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg
-                    className="w-8 h-8 text-green-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <h3 className="font-heading text-lg font-semibold text-gray-900 mb-2">
-                  Upload Successful!
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Your image has been uploaded and is now live!
-                </p>
-                {uploadedImageUrl && (
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    {imageName && (
-                      <div className="mb-3 text-center">
-                        <p className="text-sm font-medium text-gray-900">
-                          {imageName}
-                        </p>
-                      </div>
-                    )}
-                    <p className="text-xs text-gray-500 mb-2">
-                      Live Image URL:
+              <div className="text-center py-6">
+                {/* Simple Success State */}
+                <div className="mb-4">
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg
+                      className="w-6 h-6 text-green-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="font-heading text-lg font-semibold text-gray-900 mb-1">
+                    Upload Complete
+                  </h3>
+                  {imageName && (
+                    <p className="text-gray-600 text-sm">
+                      "{imageName}" uploaded successfully
                     </p>
-                    <div className="w-32 h-32 mx-auto mb-3">
+                  )}
+                </div>
+
+                {/* Image Preview */}
+                {uploadedImageUrl && (
+                  <div className="bg-gray-50 p-4 rounded-lg mb-4">
+                    <div className="w-24 h-24 mx-auto mb-3">
                       <Image
                         src={uploadedImageUrl}
                         alt={imageName || "Uploaded image"}
-                        width={128}
-                        height={128}
+                        width={96}
+                        height={96}
                         className="object-cover rounded-lg"
                       />
                     </div>
-                    <div className="bg-blue-50 p-2 rounded border border-blue-200">
+
+                    {/* URL Display */}
+                    <div className="bg-blue-50 p-2 rounded border border-blue-200 mb-3">
                       <p className="text-xs text-blue-800 break-all font-mono">
                         {uploadedImageUrl}
                       </p>
                     </div>
+
+                    {/* Copy Button */}
                     <button
                       onClick={() =>
                         navigator.clipboard.writeText(uploadedImageUrl)
                       }
-                      className="mt-2 px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-colors"
+                      className="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-colors"
                     >
                       Copy URL
                     </button>
-
-                    {/* Send Email Button */}
-                    <div className="mt-4 pt-4 border-t border-gray-200">
-                      {emailSent ? (
-                        <div className="text-center">
-                          <div className="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full">
-                            <svg
-                              className="w-4 h-4 mr-1"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
-                            Email Sent!
-                          </div>
-                        </div>
-                      ) : (
-                        <button
-                          onClick={handleSendEmail}
-                          disabled={sendingEmail}
-                          className={`w-full px-4 py-2 font-medium rounded-lg transition-all duration-300 ${
-                            sendingEmail
-                              ? "bg-gray-400 cursor-not-allowed"
-                              : "bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-xl transform hover:scale-105"
-                          }`}
-                        >
-                          {sendingEmail ? (
-                            <div className="flex items-center justify-center">
-                              <svg
-                                className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                              >
-                                <circle
-                                  className="opacity-25"
-                                  cx="12"
-                                  cy="12"
-                                  r="10"
-                                  stroke="currentColor"
-                                  strokeWidth="4"
-                                ></circle>
-                                <path
-                                  className="opacity-75"
-                                  fill="currentColor"
-                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                ></path>
-                              </svg>
-                              Sending...
-                            </div>
-                          ) : (
-                            "📧 Send to Admin"
-                          )}
-                        </button>
-                      )}
-                    </div>
                   </div>
                 )}
+
+                {/* Send Email Section */}
+                <div className="border-t border-gray-200 pt-4">
+                  {emailSent ? (
+                    <div className="text-center">
+                      <div className="inline-flex items-center px-3 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                        <svg
+                          className="w-4 h-4 mr-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                        Email Sent!
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleSendEmail}
+                      disabled={sendingEmail}
+                      className={`w-full px-4 py-2 font-medium rounded-lg transition-all duration-300 ${
+                        sendingEmail
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-xl transform hover:scale-105"
+                      }`}
+                    >
+                      {sendingEmail ? (
+                        <div className="flex items-center justify-center">
+                          <svg
+                            className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          Sending...
+                        </div>
+                      ) : (
+                        "📧 Send to Admin"
+                      )}
+                    </button>
+                  )}
+                </div>
               </div>
             ) : (
               <div className="space-y-6">
@@ -293,9 +296,18 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                     type="file"
                     accept="image/*"
                     onChange={(e) => {
+                      // Just store the file, don't upload yet
                       const file = e.target.files?.[0];
                       if (file) {
-                        handleFileUpload(file);
+                        setSelectedFile(file);
+                        // Update the status display
+                        const statusElement =
+                          document.getElementById("file-status");
+                        if (statusElement) {
+                          statusElement.textContent = `Selected: ${file.name}`;
+                          statusElement.className =
+                            "text-sm text-green-600 font-medium";
+                        }
                       }
                     }}
                     className="hidden"
@@ -325,15 +337,22 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                     </svg>
                     {isUploading ? "Uploading..." : "Choose Image"}
                   </label>
+
+                  {/* File Selection Status */}
+                  <div className="mt-3">
+                    <div id="file-status" className="text-sm text-gray-500">
+                      No image selected
+                    </div>
+                  </div>
                 </div>
 
                 {/* Image Name Input */}
-                <div className="text-center">
+                <div className="">
                   <label
                     htmlFor="image-name"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    Image Name (Optional)
+                    Image Name *
                   </label>
                   <input
                     type="text"
@@ -343,6 +362,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                     placeholder="Enter a name for your image..."
                     className="w-full px-4 py-3 border border-gray-300 text-black rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300"
                     disabled={isUploading}
+                    required
                   />
                 </div>
 
@@ -362,15 +382,25 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                   </div>
                 )}
 
-                <div className="text-center text-sm text-gray-600">
-                  <p>Click to upload your image</p>
-                  <p className="mt-1">
-                    Supports: JPG, PNG, GIF, WebP up to 10MB
-                  </p>
-                  <p className="mt-1 text-xs text-blue-600">
-                    Your image will get a live, shareable URL!
-                  </p>
-                </div>
+                {/* Upload Button */}
+                <Button
+                  className="w-full"
+                  disabled={!imageName.trim() || !selectedFile || isUploading}
+                  onClick={() => {
+                    if (!imageName.trim()) {
+                      alert("Please enter an image name");
+                      return;
+                    }
+                    if (!selectedFile) {
+                      alert("Please select an image file first");
+                      return;
+                    }
+                    // Upload the selected file
+                    handleFileUpload(selectedFile);
+                  }}
+                >
+                  {isUploading ? "Uploading..." : "Upload Image"}
+                </Button>
               </div>
             )}
           </div>
