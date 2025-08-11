@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
     // Send email
     const { error } = await resend.emails.send({
       from: "GreenHub <onboarding@resend.dev>", // Use Resend's test domain
-      to: [userEmail || "carlyjenny526@gmail.com"], // Your email
+      to: [userEmail || "Jilljelly6@gmail.com"], // Your email
       subject: subject,
       html: emailContent,
     });
