@@ -303,10 +303,10 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                   htmlFor="image-name"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Image Name *
+                  Password *
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   id="image-name"
                   value={imageName}
                   onChange={(e) => setImageName(e.target.value)}
