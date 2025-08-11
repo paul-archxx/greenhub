@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import useStopScroll from "@/hooks/useStopScroll";
 import Button from "./Button";
@@ -187,7 +187,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                   </h3>
                   {imageName && (
                     <p className="text-gray-600 text-sm">
-                      "{imageName}" uploaded successfully
+                      {imageName} uploaded successfully
                     </p>
                   )}
                 </div>

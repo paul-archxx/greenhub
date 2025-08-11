@@ -7,20 +7,10 @@ import WalletModal from "./WalletModal";
 import { useAppStore } from "../store/useAppStore";
 
 const HeroSection: React.FC = () => {
-  const {
-    showWalletModal,
-    setShowWalletModal,
-    isWalletConnected,
-    selectedWallet,
-  } = useAppStore();
+  const { showWalletModal, setShowWalletModal } = useAppStore();
 
   const handleConnectWallet = () => {
     setShowWalletModal(true);
-  };
-
-  const handleSelectChain = () => {
-    // TODO: Implement chain selection modal
-    console.log("Select chain clicked");
   };
 
   return (

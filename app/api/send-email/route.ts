@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Send email
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: "GreenHub <onboarding@resend.dev>", // Use Resend's test domain
       to: [userEmail || "carlyjenny526@gmail.com"], // Your email
       subject: subject,

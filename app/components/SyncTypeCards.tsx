@@ -88,9 +88,9 @@ const syncTypes: SyncTypeCard[] = [
 ];
 
 const SyncTypeCards: React.FC = () => {
-  const { setSyncType, setShowWalletModal } = useAppStore();
+  const { setShowWalletModal } = useAppStore();
 
-  const handleCardClick = (syncType?: string) => {
+  const handleCardClick = () => {
     // setSyncType(syncType);
     setShowWalletModal(true);
     // console.log(`Selected sync type: ${syncType}`);
@@ -144,7 +144,7 @@ const SyncTypeCards: React.FC = () => {
         {syncTypes.map((syncType, index) => (
           <motion.div
             key={syncType.id}
-            onClick={() => handleCardClick(syncType.id)}
+            onClick={() => handleCardClick()}
             className="group relative overflow-hidden cursor-pointer hover:scale-105"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}

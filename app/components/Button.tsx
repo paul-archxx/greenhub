@@ -1,5 +1,4 @@
 import React from "react";
-import IconSelector from "./IconSelector";
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -14,7 +13,6 @@ const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
   disabled = false,
-  icon,
   variant = "primary",
   className = "",
 }) => {

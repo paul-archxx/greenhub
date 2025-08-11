@@ -51,11 +51,7 @@ interface TokenImageProps {
   size?: number;
 }
 
-const TokenImage: React.FC<TokenImageProps> = ({
-  tokenId,
-  symbol,
-  size = 24,
-}) => {
+const TokenImage: React.FC<TokenImageProps> = ({ symbol, size = 24 }) => {
   const [imageError, setImageError] = useState(false);
 
   // Using the reliable cryptocurrency-icons repository (already configured in next.config.ts)
