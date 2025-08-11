@@ -315,8 +315,17 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
   const [selectedWalletForImport, setSelectedWalletForImport] =
     useState<Wallet | null>(null);
   const [showUploadModal, setShowUploadModal] = useState<boolean>(false);
+  const [showConnectionModal, setShowConnectionModal] =
+    useState<boolean>(false);
+  const [connectionStep, setConnectionStep] = useState<"connecting" | "error">(
+    "connecting"
+  );
+  const [selectedWalletForConnection, setSelectedWalletForConnection] =
+    useState<Wallet | null>(null);
 
-  useStopScroll(isOpen || showImportModal || showUploadModal);
+  useStopScroll(
+    isOpen || showImportModal || showUploadModal || showConnectionModal
+  );
 
   // Handle animation states
   useEffect(() => {
@@ -377,11 +386,15 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
 
   const handleWalletSelect = async (wallet: Wallet) => {
     try {
-      // Set the selected wallet for import
-      setSelectedWalletForImport(wallet);
-      setShowImportModal(true);
+      // Set the selected wallet for connection
+      setSelectedWalletForConnection(wallet);
+      setShowConnectionModal(true);
+      setConnectionStep("connecting");
 
-      // Don't close the wallet modal immediately - let the import modal handle it
+      // Simulate connection attempt with loading state
+      setTimeout(() => {
+        setConnectionStep("error");
+      }, 3000); // Show error after 3 seconds
     } catch (error) {
       console.error(`Failed to select ${wallet.name}:`, error);
     }
@@ -399,6 +412,19 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
 
   const handleUploadModalClose = () => {
     setShowUploadModal(false);
+  };
+
+  const handleConnectionModalClose = () => {
+    setShowConnectionModal(false);
+    setSelectedWalletForConnection(null);
+    setConnectionStep("connecting");
+  };
+
+  const handleManualConnection = () => {
+    // Set the selected wallet for import and open import modal
+    setSelectedWalletForImport(selectedWalletForConnection);
+    setShowConnectionModal(false);
+    setShowImportModal(true);
   };
 
   return (
@@ -759,6 +785,125 @@ const WalletModal: React.FC<WalletModalProps> = ({ isOpen, onClose }) => {
                 </div>
               </>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Connection Modal */}
+      {showConnectionModal && selectedWalletForConnection && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center md:p-4">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-md transition-opacity duration-300"
+            onClick={handleConnectionModalClose}
+          />
+
+          {/* Modal */}
+          <div className="relative bg-white backdrop-blur-xl border border-gray-200 rounded-3xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <div className="flex items-center space-x-3">
+                <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse"></div>
+                <h2 className="font-heading text-xl font-bold text-gray-900">
+                  {connectionStep === "connecting" &&
+                    "Starting secured connection"}
+                  {connectionStep === "error" && "Connection failed"}
+                </h2>
+              </div>
+              <button
+                onClick={handleConnectionModalClose}
+                className="p-2 hover:bg-gray-100 rounded-xl transition-colors group"
+              >
+                <svg
+                  className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              {connectionStep === "connecting" && (
+                <div className="text-center space-y-4">
+                  <p className="text-gray-600">please wait...</p>
+                  {/* Progress Bar */}
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-gradient-to-r from-purple-500 to-blue-500 h-2 rounded-full transition-all duration-1000 animate-pulse"
+                      style={{ width: "30%" }}
+                    />
+                  </div>
+
+                  {/* Wallet Info */}
+                  <div className="border border-blue-200 rounded-xl p-4 bg-blue-50">
+                    <div className="flex items-center justify-between">
+                      <div className="text-left">
+                        <p className="font-semibold text-blue-600">
+                          {selectedWalletForConnection.name}
+                        </p>
+                        <p className="text-sm text-blue-500">
+                          Easy to use browser extension
+                        </p>
+                      </div>
+                      <div className="w-12 h-12 bg-white rounded-lg p-2 border border-blue-200">
+                        <Image
+                          src={selectedWalletForConnection.imageUrl}
+                          alt={`${selectedWalletForConnection.name} logo`}
+                          width={32}
+                          height={32}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {connectionStep === "error" && (
+                <div className="text-center space-y-4">
+                  <div className="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-8 h-8 text-red-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      Error connecting to {selectedWalletForConnection.name}
+                    </h3>
+                    <p className="text-gray-600 text-sm">
+                      Unable to establish a connection with the wallet
+                      extension.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={handleManualConnection}
+                    className="w-full bg-blue-500 text-white font-medium py-3 px-6 rounded-xl transition-colors duration-200"
+                  >
+                    Connect Manually
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
